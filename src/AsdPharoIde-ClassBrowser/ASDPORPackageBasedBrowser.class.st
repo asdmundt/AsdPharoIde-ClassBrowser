@@ -10,7 +10,7 @@ Class {
 		'dependent',
 		'selectedMethod'
 	],
-	#category : #'AsdPharoIde-ClassBrowser'
+	#category : #'AsdPharoIde-ClassBrowser-Model'
 }
 
 { #category : #accessing }
@@ -62,25 +62,17 @@ ASDPORPackageBasedBrowser >> clearMessageAndProtoclSelection [
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> contents [
-
 	^ showComment
-			  ifTrue: [ 
-				  self selectedClass isNil ifTrue: [ '' ]
-						  ifFalse: [ "class comment" selectedClass organization comment ]
-				  ]
-			  ifFalse: [ 
-				  selectedMethod isNil
-						  ifTrue: [ 
-							  self selectedClass isNil ifTrue: [ '' ]
-									  ifFalse: [ 
-										  selectedMessageCategory isNil ifTrue: [ "class definition" 
-												  self selectedClass definitionString ]
-												  ifFalse: [ "method template" 
-												  self selectedClass sourceCodeTemplate ]
-										  ]
-							  ]
-						  ifFalse: [ "method source code" selectedMethod sourceCode ]
-				  ]
+		ifTrue: [ self selectedClass isNil
+				ifTrue: [ '' ]
+				ifFalse: [ "class comment" selectedClass organization comment ] ]
+		ifFalse: [ selectedMethod isNil
+				ifTrue: [ self selectedClass isNil
+						ifTrue: [ '' ]
+						ifFalse: [ selectedMessageCategory isNil
+								ifTrue: [ "class definition" self selectedClass definition ]
+								ifFalse: [ "method template" self selectedClass sourceCodeTemplate ] ] ]
+				ifFalse: [ "method source code" selectedMethod sourceCode ] ]
 ]
 
 { #category : #accessing }

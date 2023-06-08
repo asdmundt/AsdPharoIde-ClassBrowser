@@ -7,7 +7,7 @@ Class {
 		'message',
 		'monacoComponent'
 	],
-	#category : #'AsdPharoIde-ClassBrowser'
+	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 
 { #category : #accessing }
@@ -16,11 +16,6 @@ ASDPOClassBrowser class >> browserClass [
 	^ Smalltalk at:
 			  ((Smalltalk hasClassNamed: #Browser) ifTrue: [ #Browser ]
 					   ifFalse: [ #ASDPORPackageBasedBrowser ])
-]
-
-{ #category : #testing }
-ASDPOClassBrowser class >> canBeRoot [
-	^ true
 ]
 
 { #category : #accessing }
@@ -38,17 +33,9 @@ ASDPOClassBrowser class >> fullOnClass: aClass selector: aSelector [
 	^ self new model: (self browserClass new setClass: aClass selector: aSelector)
 ]
 
-{ #category : #initialization }
-ASDPOClassBrowser class >> initialize [
-	
-			self environment at: #WADevelopmentConfiguration ifPresent: [ :class | WAAdmin applicationDefaults addParent: class instance ]. "Remove development tools."
-	^ (WAAdmin register: self asApplicationAt: 'asdclassbrowser')
-		preferenceAt: #sessionClass put: ASDPOSession;
-		addLibrary: JQDeploymentLibrary;
-		addLibrary: JQUiDeploymentLibrary;
-		addLibrary: MDLLibrary;
-		
-		yourself
+{ #category : #testing }
+ASDPOClassBrowser class >> version [
+	^ 'v1.0.0'
 ]
 
 { #category : #actions }
@@ -173,30 +160,32 @@ ASDPOClassBrowser >> renderContentOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderContentPaneOn: html [
-
 	html form
 		class: 'definition';
-		with: [ 
-			html div: [ 
-						html hiddenInput
-							id: #hiddenContents;
-							value: self contents;
-							callback: [ :aString | self contents: aString ].
-						self renderMonacoComponentOn: html.
-						html break.
-						html submitButton
-							value: 'accept';
-							callback: [ self accept ];
-							onClick: (JSStream on:
-											 'var monacoComp = document.getElementsByTagName(''textarea'');
+		with: [ html
+				div: [ html hiddenInput
+						id: #hiddenContents;
+						value: self contents;
+						callback: [ :aString | self contents: aString ].
+					self renderMonacoComponentOn: html.
+					html break.
+					html submitButton
+						value: 'accept';
+						callback: [ self accept ];
+						onClick:
+							(JSStream
+								on:
+									'var monacoComp = document.getElementsByTagName(''textarea'');
 					 $(''#hiddenContents'').val(monacoComp[0].value) 
 ')
-					"	html submitButton on: #accept of: self"
-						]
-			].
-	html document addLoadScript: (JSStream on:
-					 'var monacoComp = document.getElementsByTagName(''textarea'');
+					"	html submitButton on: #accept of: self" ] ].
+	html document
+		addLoadScript:
+			(JSStream
+				on:
+					'var monacoComp = document.getElementsByTagName(''textarea'');
 					monacoComp[0].addEventListener(''change'', loadValue); 
+					monacoComp[0].addEventListener(''load'', loadValue); 
 					function loadValue(){ $(''#hiddenContents'').val(monacoComp[0].value) }
 ')
 ]
@@ -224,9 +213,9 @@ ASDPOClassBrowser >> renderModeButtonsOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderMonacoComponentOn: html [
-
-	html render:(MonacoComponent code: self contents
-					 language: MonacoLanguage smalltalk)
+	html render: (MonacoComponent
+				code: self contents
+				language: MonacoLanguage smalltalk)
 ]
 
 { #category : #notifying }
@@ -303,13 +292,13 @@ ASDPOClassBrowser >> update: aSymbol [
 { #category : #updating }
 ASDPOClassBrowser >> updateRoot: anHtmlRoot [
 	super updateRoot: anHtmlRoot.
-	anHtmlRoot beHtml5.
-	anHtmlRoot meta
-		attributeAt: 'name' put: 'viewport';
-		content: 'width=device-width, initial-scale=1'.
+	anHtmlRoot link
+		beStylesheet;
+		url: 'https://fonts.googleapis.com/css?family=Roboto'.
 	anHtmlRoot javascript
 		url:
-			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'
+			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'.
+	anHtmlRoot title: 'Monaco Demo - ' , self class version
 ]
 
 { #category : #updating }
