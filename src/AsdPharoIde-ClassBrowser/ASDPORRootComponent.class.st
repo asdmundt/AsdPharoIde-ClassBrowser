@@ -270,14 +270,17 @@ ASDPORRootComponent >> tryConnectionWithLogin: login andPassword: password [
 ASDPORRootComponent >> updateRoot: anHtmlRoot [
 	super updateRoot: anHtmlRoot.
 	anHtmlRoot beHtml5.
-	anHtmlRoot title: 'ASDMundtSmartHomeVerwaltung'.
+	anHtmlRoot title: 'ASDMundt Online Ide'.
 	anHtmlRoot meta
 		attributeAt: 'name' put: 'viewport';
 		content: 'width=device-width, initial-scale=1'.
 	"self updateTabIconRoot: anHtmlRoot."
 	"anHtmlRoot stylesheet url: (WAUrl absolute: 'https://code.getmdl.io/1.3.0/material.blue_grey-blue.min.css').
 	anHtmlRoot javascript add: 'hljs.initHighlightingOnLoad();'."
-	anHtmlRoot stylesheet url: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/' , 'base' , '/jquery-ui.css'
+	anHtmlRoot stylesheet
+		url:
+			'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/'
+				, 'base' , '/jquery-ui.css'
 ]
 
 { #category : #updating }
