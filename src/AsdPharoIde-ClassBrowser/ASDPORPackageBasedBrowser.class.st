@@ -78,20 +78,18 @@ ASDPORPackageBasedBrowser >> contents [
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> contents: input notifying: aController [
 	^ showComment
-		ifTrue: [
-			selectedClass organization comment: input.
+		ifTrue: [ selectedClass organization comment: input.
 			true ]
-		ifFalse: [
-			(self selectedMessageName isNil and: [ selectedMessageCategory isNil ])
-				ifTrue: [
-					"compile a class"
-					selectedClass subclassDefinerClass
-						evaluate: input
-						notifying: aController
-						logged: true ]
-				ifFalse: [
-					"compile a method"
-					 (self selectedClass
+		ifFalse: [ (self selectedMessageName isNil
+				and: [ selectedMessageCategory isNil ])
+				ifTrue: [ "compile a class"
+					selectedClass subclassDefinerClass new
+						source: input;
+						logged: true;
+						requestor: aController;
+						evaluate ]
+				ifFalse: [ "compile a method"
+					(self selectedClass
 						compile: input
 						classified: self protocolForSelectedMethod
 						notifying: aController) isSymbol ] ]

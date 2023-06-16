@@ -1,6 +1,6 @@
 Class {
-	#name : #ASDPORLoginPage,
-	#superclass : #ASDPORPage,
+	#name : #ASDPORCrudGeneratorPage,
+	#superclass : #ASDPORPageLogin,
 	#instVars : [
 		'centerComponent',
 		'loginComponent',
@@ -10,54 +10,54 @@ Class {
 }
 
 { #category : #accessing }
-ASDPORLoginPage class >> pageName [
-	^ 'Login'
+ASDPORCrudGeneratorPage class >> pageName [
+	^ 'CRUD Genarator'
 ]
 
 { #category : #accessing }
-ASDPORLoginPage class >> priority [
-	^ 1
+ASDPORCrudGeneratorPage class >> priority [
+	^ 3
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent [
+ASDPORCrudGeneratorPage >> centerComponent [
 	^ centerComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent: anObject [
+ASDPORCrudGeneratorPage >> centerComponent: anObject [
 	centerComponent := anObject
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> hasLoginError [
+ASDPORCrudGeneratorPage >> hasLoginError [
 	^ showLoginError ifNil: [ false ]
 ]
 
 { #category : #initialize }
-ASDPORLoginPage >> initialize [
+ASDPORCrudGeneratorPage >> initialize [
 	super initialize.
 
 	
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent [
+ASDPORCrudGeneratorPage >> loginComponent [
 	^ loginComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent: anObject [
+ASDPORCrudGeneratorPage >> loginComponent: anObject [
 	loginComponent := anObject
 ]
 
 { #category : #actions }
-ASDPORLoginPage >> loginErrorOccured [
+ASDPORCrudGeneratorPage >> loginErrorOccured [
         showLoginError := true
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> rendeModalLoginButtonOn: html [
+ASDPORCrudGeneratorPage >> rendeModalLoginButtonOn: html [
 	html
 		form: [ html
 				render:
@@ -71,7 +71,7 @@ ASDPORLoginPage >> rendeModalLoginButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderContentOn: html [
+ASDPORCrudGeneratorPage >> renderContentOn: html [
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';
@@ -82,7 +82,7 @@ ASDPORLoginPage >> renderContentOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderLoginErrorMessageIfAnyOn: html [
+ASDPORCrudGeneratorPage >> renderLoginErrorMessageIfAnyOn: html [
 	self hasLoginError ifTrue: [
 		showLoginError := false.
 		html tbsAlert

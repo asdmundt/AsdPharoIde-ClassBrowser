@@ -1,6 +1,6 @@
 Class {
-	#name : #ASDPORLoginPage,
-	#superclass : #ASDPORPage,
+	#name : #ASDPORMagritteGeneratorPage,
+	#superclass : #ASDPORPageLogin,
 	#instVars : [
 		'centerComponent',
 		'loginComponent',
@@ -10,54 +10,54 @@ Class {
 }
 
 { #category : #accessing }
-ASDPORLoginPage class >> pageName [
-	^ 'Login'
+ASDPORMagritteGeneratorPage class >> pageName [
+	^ 'CRUD Genarator'
 ]
 
 { #category : #accessing }
-ASDPORLoginPage class >> priority [
-	^ 1
+ASDPORMagritteGeneratorPage class >> priority [
+	^ 3
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent [
+ASDPORMagritteGeneratorPage >> centerComponent [
 	^ centerComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent: anObject [
+ASDPORMagritteGeneratorPage >> centerComponent: anObject [
 	centerComponent := anObject
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> hasLoginError [
+ASDPORMagritteGeneratorPage >> hasLoginError [
 	^ showLoginError ifNil: [ false ]
 ]
 
 { #category : #initialize }
-ASDPORLoginPage >> initialize [
+ASDPORMagritteGeneratorPage >> initialize [
 	super initialize.
 
 	
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent [
+ASDPORMagritteGeneratorPage >> loginComponent [
 	^ loginComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent: anObject [
+ASDPORMagritteGeneratorPage >> loginComponent: anObject [
 	loginComponent := anObject
 ]
 
 { #category : #actions }
-ASDPORLoginPage >> loginErrorOccured [
+ASDPORMagritteGeneratorPage >> loginErrorOccured [
         showLoginError := true
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> rendeModalLoginButtonOn: html [
+ASDPORMagritteGeneratorPage >> rendeModalLoginButtonOn: html [
 	html
 		form: [ html
 				render:
@@ -71,7 +71,7 @@ ASDPORLoginPage >> rendeModalLoginButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderContentOn: html [
+ASDPORMagritteGeneratorPage >> renderContentOn: html [
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';
@@ -82,7 +82,7 @@ ASDPORLoginPage >> renderContentOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderLoginErrorMessageIfAnyOn: html [
+ASDPORMagritteGeneratorPage >> renderLoginErrorMessageIfAnyOn: html [
 	self hasLoginError ifTrue: [
 		showLoginError := false.
 		html tbsAlert

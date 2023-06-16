@@ -107,10 +107,10 @@ ASDBPORHeader >> renderContentOn: html [
 			html
 				mdlLayoutHeaderRow: [ html mdlNavigationLink
 						callback: [ "Just refresh" ];
-						with: [ html mdlLayoutTitle: 'Mediadaten Verwaltung   ' ].
+						with: [ html mdlLayoutTitle: 'Pharo Online IDE' ].
 					self renderNavMenu: html.
 					html mdlLayoutSpacer.
-					self renderButtonsOn: html ] ].
+					self renderButtonsOn: html ] ]
 	"style: 'background-color: #000000;';"
 	"self renderDrawerOn: html"
 ]

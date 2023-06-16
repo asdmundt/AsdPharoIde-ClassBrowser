@@ -1,6 +1,6 @@
 Class {
-	#name : #ASDPORLoginPage,
-	#superclass : #ASDPORPage,
+	#name : #ASDPORHomePage,
+	#superclass : #ASDPORPageLogin,
 	#instVars : [
 		'centerComponent',
 		'loginComponent',
@@ -10,54 +10,54 @@ Class {
 }
 
 { #category : #accessing }
-ASDPORLoginPage class >> pageName [
+ASDPORHomePage class >> pageName [
 	^ 'Login'
 ]
 
 { #category : #accessing }
-ASDPORLoginPage class >> priority [
+ASDPORHomePage class >> priority [
 	^ 1
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent [
+ASDPORHomePage >> centerComponent [
 	^ centerComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> centerComponent: anObject [
+ASDPORHomePage >> centerComponent: anObject [
 	centerComponent := anObject
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> hasLoginError [
+ASDPORHomePage >> hasLoginError [
 	^ showLoginError ifNil: [ false ]
 ]
 
 { #category : #initialize }
-ASDPORLoginPage >> initialize [
+ASDPORHomePage >> initialize [
 	super initialize.
 
 	
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent [
+ASDPORHomePage >> loginComponent [
 	^ loginComponent
 ]
 
 { #category : #accessing }
-ASDPORLoginPage >> loginComponent: anObject [
+ASDPORHomePage >> loginComponent: anObject [
 	loginComponent := anObject
 ]
 
 { #category : #actions }
-ASDPORLoginPage >> loginErrorOccured [
+ASDPORHomePage >> loginErrorOccured [
         showLoginError := true
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> rendeModalLoginButtonOn: html [
+ASDPORHomePage >> rendeModalLoginButtonOn: html [
 	html
 		form: [ html
 				render:
@@ -71,7 +71,7 @@ ASDPORLoginPage >> rendeModalLoginButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderContentOn: html [
+ASDPORHomePage >> renderContentOn: html [
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';
@@ -82,7 +82,7 @@ ASDPORLoginPage >> renderContentOn: html [
 ]
 
 { #category : #rendering }
-ASDPORLoginPage >> renderLoginErrorMessageIfAnyOn: html [
+ASDPORHomePage >> renderLoginErrorMessageIfAnyOn: html [
 	self hasLoginError ifTrue: [
 		showLoginError := false.
 		html tbsAlert

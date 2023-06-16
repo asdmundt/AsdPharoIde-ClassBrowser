@@ -49,6 +49,19 @@ ASDPOClassBrowser >> accept [
 	contents := save
 ]
 
+{ #category : #actions }
+ASDPOClassBrowser >> addAccessor [
+	| selClass tmpModelClass |
+	selClass := self model selectedClass.
+	"self halt."
+	selClass
+		ifNotNil: [ Transcript show: selClass.
+			tmpModelClass := ASDPORModelCreateAccessors selClass: selClass.
+			tmpModelClass selClass: selClass.
+			tmpModelClass apllyingRefacturing.
+			self model indicateInstanceMessages ]
+]
+
 { #category : #hooks }
 ASDPOClassBrowser >> children [
 ^ Array with: self monacoComponent 
@@ -198,17 +211,22 @@ ASDPOClassBrowser >> renderMessageOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderModeButtonsOn: html [
-	html form class: 'mode'; with: [
-		html div: [
-			html submitButton
-				callback: [ self showInstance ];
-				value: 'instance'.
-			html submitButton
-				callback: [ self showHelp ];
-				value: 'help'.
-			html submitButton
-				callback: [ self showClass ];
-				value: 'class' ] ]
+	html form
+		class: 'mode';
+		with: [ html
+				div: [ html submitButton
+						callback: [ self showInstance ];
+						value: 'instance'.
+					html submitButton
+						callback: [ self showHelp ];
+						value: 'help'.
+					html submitButton
+						callback: [ self showClass ];
+						value: 'class' .
+					html submitButton
+						callback: [ self addAccessor  ];
+						value: 'Accessors' ].
+					 ]
 ]
 
 { #category : #rendering }

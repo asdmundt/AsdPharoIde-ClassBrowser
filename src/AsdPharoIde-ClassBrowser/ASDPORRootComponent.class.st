@@ -124,16 +124,6 @@ ASDPORRootComponent >> footer: aComponent [
 ]
 
 { #category : #actions }
-ASDPORRootComponent >> goToAdminView [
-	self displayInstanceOf: ASDSAdminHomeControlPage 
-]
-
-{ #category : #actions }
-ASDPORRootComponent >> goToInstallView [
-	self displayInstanceOf: ASDSZentraleInstallerPage 
-]
-
-{ #category : #actions }
 ASDPORRootComponent >> goToLoginView [
 	self displayInstanceOf: ASDSLoginPage
 ]
