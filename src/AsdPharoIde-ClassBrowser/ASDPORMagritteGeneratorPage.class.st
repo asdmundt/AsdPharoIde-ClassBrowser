@@ -11,7 +11,7 @@ Class {
 
 { #category : #accessing }
 ASDPORMagritteGeneratorPage class >> pageName [
-	^ 'CRUD Genarator'
+	^ 'Magritte Genarator'
 ]
 
 { #category : #accessing }

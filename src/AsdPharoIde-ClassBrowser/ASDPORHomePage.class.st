@@ -11,7 +11,7 @@ Class {
 
 { #category : #accessing }
 ASDPORHomePage class >> pageName [
-	^ 'Login'
+	^ 'Home'
 ]
 
 { #category : #accessing }

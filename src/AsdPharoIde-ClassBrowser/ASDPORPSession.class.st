@@ -32,6 +32,12 @@ ASDPORPSession >> first: anObject [
 	first := anObject
 ]
 
+{ #category : #initialize }
+ASDPORPSession >> initialize [
+	super initialize.
+	self model: ASDPORPlanung current.
+]
+
 { #category : #accessing }
 ASDPORPSession >> loginError [
 	^ loginError
@@ -52,12 +58,24 @@ ASDPORPSession >> model: anObject [
 	model := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #operations }
+ASDPORPSession >> reset [
+	currentUser := nil.
+	self requestContext redirectTo: self application url.
+	self unregister
+]
+
+{ #category : #operations }
+ASDPORPSession >> resetStates [
+
+]
+
+{ #category : #accessing }
 ASDPORPSession >> rootComponent [
 	^ rootComponent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ASDPORPSession >> rootComponent: aRootComponent [
 	rootComponent := aRootComponent
 ]

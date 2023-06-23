@@ -51,12 +51,10 @@ ASDPORRootComponent class >> version [
 
 { #category : #hooks }
 ASDPORRootComponent >> children [
-
-	^ { 
-		  self header.
-		  self componentToDisplay.
-		  self rightPanel.
-		  self footer }
+	^ {self header.
+	self componentToDisplay.
+	self rightPanel.
+	}
 ]
 
 { #category : #accessing }
@@ -90,7 +88,7 @@ ASDPORRootComponent >> defaultFooter [
 
 { #category : #components }
 ASDPORRootComponent >> defaultHeader [
-	^ ASDSHeader new
+	^ ASDBPORHeader new
 ]
 
 { #category : #updating }
@@ -176,7 +174,6 @@ ASDPORRootComponent >> initialize [
 	self footer: self defaultFooter.
 	self session rootComponent: self.
 	self rightPanel: ASDComponentWithRightPanel new.
-	self session os: (SmalltalkImage current vm getSystemAttribute: 1001).
 	self componentInstances: Dictionary new.
 	self displayInstanceOf: self header possiblePages first
 ]

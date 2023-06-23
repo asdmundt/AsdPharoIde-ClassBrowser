@@ -47,7 +47,7 @@ ASDPORPlanung class >> initialize [
 { #category : #voyage }
 ASDPORPlanung class >> initializeLocalhostMongoDB [
 	| repository |
-	repository := VOMongoRepository database: 'shs'.
+	repository := VOMongoRepository database: 'por'.
 	repository enableSingleton
 ]
 

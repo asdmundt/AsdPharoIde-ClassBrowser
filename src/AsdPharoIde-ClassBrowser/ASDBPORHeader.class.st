@@ -41,7 +41,7 @@ ASDBPORHeader >> _renderContentOn: html [
 
 { #category : #accessing }
 ASDBPORHeader >> possiblePages [
- ^	ASDBPage pagesToDisplay
+	^ ASDPORPage pagesToDisplay
 ]
 
 { #category : #rendering }

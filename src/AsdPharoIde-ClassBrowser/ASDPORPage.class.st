@@ -4,6 +4,11 @@ Class {
 	#category : #'AsdPharoIde-ClassBrowser-Core'
 }
 
+{ #category : #testing }
+ASDPORPage class >> isAbstract [
+	^ self = ASDPORPage
+]
+
 { #category : #accessing }
 ASDPORPage class >> pageName [
 	"Title of the page that will be used in menus and URLs."
