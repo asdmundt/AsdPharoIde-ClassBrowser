@@ -38,6 +38,11 @@ ASDPORPSession >> initialize [
 	self model: ASDPORPlanung current.
 ]
 
+{ #category : #testing }
+ASDPORPSession >> isLogged [
+	^ self currentUser notNil
+]
+
 { #category : #accessing }
 ASDPORPSession >> loginError [
 	^ loginError
