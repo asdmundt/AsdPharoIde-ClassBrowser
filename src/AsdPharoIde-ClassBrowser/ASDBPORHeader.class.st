@@ -102,17 +102,17 @@ ASDBPORHeader >> renderButtonsOn: html [
 { #category : #rendering }
 ASDBPORHeader >> renderContentOn: html [
 	html mdlLayoutHeader
-		with:
-			[ "style: 'background: url(''http://localhost/FrankfurtSkylineII.jpg'') ;';"
+		with: [ "self renderDrawerOn: html"
 			html
 				mdlLayoutHeaderRow: [ html mdlNavigationLink
 						callback: [ "Just refresh" ];
-						with: [ html mdlLayoutTitle: 'Pharo Online IDE' ].
-					self renderNavMenu: html.
+						with: [ html mdlLayoutTitle: [ html text: 'Pharo Online IDE' ] ].
+					self rootComponent class development
+						ifTrue: [ html text: '	Version ' , self rootComponent class version ].
 					html mdlLayoutSpacer.
-					self renderButtonsOn: html ] ]
-	"style: 'background-color: #000000;';"
-	"self renderDrawerOn: html"
+					self renderButtonsOn: html
+					"html text: '	Version ' , self rootComponent class version." ].
+			self renderTabBarOn: html ]
 ]
 
 { #category : #rendering }
@@ -137,4 +137,15 @@ html	mdlLayoutTabBar: [ self possiblePages
 										isActiveIf: aClass = self rootComponent componentToDisplay class;
 										with: aClass pageName ] ]
 	
+]
+
+{ #category : #rendering }
+ASDBPORHeader >> renderTabBarOn: html [
+
+	html mdlLayoutTabBar: [ 
+		self possiblePages do: [ :aClass | 
+			html mdlLayoutTab
+				callback: [ self displayInstanceOf: aClass ];
+				isActiveIf: aClass = self rootComponent componentToDisplay class;
+				with: aClass pageName ] ]
 ]

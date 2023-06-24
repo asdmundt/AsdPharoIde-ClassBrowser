@@ -887,8 +887,7 @@ body{
 
 .mdl-textfield__input {
     background-color: #0c0f15 !important;
-    border: none !important;
-    border-bottom: none !important;  
+   
     -webkit-box-shadow: none;
     box-shadow: none;
     height: 30px;
@@ -901,11 +900,7 @@ body{
         text-align: left;
 }
 
-.mdl-textfield__input:focus {
-     border: 1px solid #1a71ec !important;
-	border-radius: 2px;
 
-}
 
 .mdl-textfield {
     position: relative;
@@ -931,7 +926,6 @@ body{
 
 .mdl-layout__drawer {
    background: #161b22 !important;
-border-right: 1px solid #161b22 !important; 
 height: 90% !important;
 }
 
@@ -1334,6 +1328,14 @@ width: 100%;
     padding: 15px;
     align-items: baseline;
     flex-wrap: wrap;
+}
+
+.component-centered {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 '

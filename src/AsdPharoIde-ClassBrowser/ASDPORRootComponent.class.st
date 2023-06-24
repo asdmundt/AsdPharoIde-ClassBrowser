@@ -185,23 +185,20 @@ ASDPORRootComponent >> loginErrorOccured [
 
 { #category : #rendering }
 ASDPORRootComponent >> renderContentOn: html [
-
 	html mdlLayout
 		fixedHeader;
-		with: [ 
-			html render: self header.
+		with: [ html render: self header.
 			html mdlLayoutContent
 				class: 'mdl-color-text--grey-600';
-				with: [ 
-					html mdlGrid
+				with: [ html mdlGrid
 						noSpacing;
 						with: [ "noSpacing;""html render: self footer"
 							html mdlCell
 								class: 'rootComponent';
 								size: 12;
 								stretch;
-								with: [ 
-									html div
+								with: [ html div
+									class: 'component-centered';
 										id: #main;
 										with: [ html render: self componentToDisplay ].
 									html render: self rightPanel ] ] ] ].
@@ -244,11 +241,8 @@ ASDPORRootComponent >> tryConnectionWithLogin: login andPassword: password [
 			"arg logged: true."
 			self session model addLoggedUser: arg.
 			self session first: true.
-			arg isAdmin
-				ifTrue: [ arg isInstallReady
-						ifTrue: [ self goToAdminView ]
-						ifFalse: [ self  goToInstallView ] ]
-				ifFalse: [ self goToOverviewView ] ]
+			self goToOverviewView
+		]	
 		ifNil: [ self session loginError.
 			self goToLoginView ]
 ]

@@ -80,12 +80,3 @@ ASDPORLoginPage >> renderContentOn: html [
 				size: 12;
 				with: [ self rendeModalLoginButtonOn: html ] ]
 ]
-
-{ #category : #rendering }
-ASDPORLoginPage >> renderLoginErrorMessageIfAnyOn: html [
-	self hasLoginError ifTrue: [
-		showLoginError := false.
-		html tbsAlert
-			beDanger ;
-			with: self loginErrorMessage ]
-]

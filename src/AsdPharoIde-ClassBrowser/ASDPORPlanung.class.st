@@ -19,14 +19,14 @@ ASDPORPlanung class >> createAdmin [
 	(ASDSUser benutzerName: 'admin' password: 'pwd' admin: true) save
 ]
 
+{ #category : #voyage }
+ASDPORPlanung class >> createUser [
+	(ASDPORUser benutzerName: 'asdmundt' password: 'pwd') save
+]
+
 { #category : #'class initialization' }
 ASDPORPlanung class >> current [
 	^ uniqueInstancePlanung ifNil: [ uniqueInstancePlanung := self new ]
-]
-
-{ #category : #'default values' }
-ASDPORPlanung class >> defaultAdminPassword [
-   ^ 'topsecret'
 ]
 
 { #category : #'data sample' }
@@ -82,28 +82,8 @@ ASDPORPlanung >> addLoggedUser: aUser [
 ]
 
 { #category : #operations }
-ASDPORPlanung >> allDevices [
-	^ ASDSDevice selectAll
-]
-
-{ #category : #operations }
-ASDPORPlanung >> allMultiMediaServerDevices [
-	^ ASDSServerDeviceMultiMedia selectAll
-]
-
-{ #category : #operations }
-ASDPORPlanung >> allMusicBoxServerDevices [
-	^ ASDSServerDeviceMusicBox selectAll
-]
-
-{ #category : #operations }
 ASDPORPlanung >> allUsers [
-	^ ASDSUser selectAll
-]
-
-{ #category : #operations }
-ASDPORPlanung >> allWebCamServerDevices [
-	^ ASDSServerDeviceWebCam selectAll
+	^ ASDPORUser selectAll
 ]
 
 { #category : #initialization }
