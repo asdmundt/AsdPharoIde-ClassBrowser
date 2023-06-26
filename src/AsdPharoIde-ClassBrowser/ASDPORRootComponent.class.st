@@ -171,9 +171,10 @@ ASDPORRootComponent >> initialRequest: aRequest [
 
 { #category : #initialization }
 ASDPORRootComponent >> initialize [
+
 	super initialize.
 	self header: self defaultHeader.
-	self footer: self defaultFooter.
+	
 	self session rootComponent: self.
 	self rightPanel: ASDComponentWithRightPanel new.
 	self componentInstances: Dictionary new.

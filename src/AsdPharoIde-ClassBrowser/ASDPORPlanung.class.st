@@ -15,11 +15,6 @@ Class {
 }
 
 { #category : #voyage }
-ASDPORPlanung class >> createAdmin [
-	(ASDSUser benutzerName: 'admin' password: 'pwd' admin: true) save
-]
-
-{ #category : #voyage }
 ASDPORPlanung class >> createUser [
 	(ASDPORUser benutzerName: 'asdmundt' password: 'pwd') save
 ]
@@ -65,6 +60,7 @@ ASDPORPlanung class >> isVoyageRoot [
 
 { #category : #'class initialization' }
 ASDPORPlanung class >> reset [
+
 	uniqueInstancePlanung := nil.
 	VORepository current reset.
 	self initializeLocalhostMongoDB
@@ -88,8 +84,10 @@ ASDPORPlanung >> allUsers [
 
 { #category : #initialization }
 ASDPORPlanung >> initialize [
+
 	super initialize.
-	
+	loggedUsers := OrderedCollection new.
+	users := OrderedCollection new.
 ]
 
 { #category : #accessing }
