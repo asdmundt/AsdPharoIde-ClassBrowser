@@ -115,7 +115,7 @@ ASDPORPlanung >> storeUser: aUser [
 
 { #category : #operations }
 ASDPORPlanung >> userFromLogin: aLogin andPassword: aPassword [
-	^ ASDSUser
+	^ ASDPORUser
 		selectOne: [ :each | each benutzerName = aLogin & (each password = aPassword) ]
 ]
 

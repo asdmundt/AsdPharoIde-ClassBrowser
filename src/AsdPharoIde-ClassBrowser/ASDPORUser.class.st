@@ -1,6 +1,6 @@
 Class {
 	#name : #ASDPORUser,
-	#superclass : #ASDSmartHomeVerwaltung,
+	#superclass : #ASDPORModel,
 	#instVars : [
 		'gmail',
 		'pwdGmail',
