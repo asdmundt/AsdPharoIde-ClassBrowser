@@ -84,11 +84,6 @@ ASDPORRootComponent >> componentToDisplay: aComponent [
 ]
 
 { #category : #components }
-ASDPORRootComponent >> defaultFooter [
-	^ ASDSFooter new
-]
-
-{ #category : #components }
 ASDPORRootComponent >> defaultHeader [
 	^ ASDBPORHeader new
 ]
@@ -121,11 +116,6 @@ ASDPORRootComponent >> footer [
 { #category : #accessing }
 ASDPORRootComponent >> footer: aComponent [
 	footer := aComponent
-]
-
-{ #category : #actions }
-ASDPORRootComponent >> goToLoginView [
-	self displayInstanceOf: ASDSLoginPage
 ]
 
 { #category : #actions }
@@ -220,11 +210,11 @@ ASDPORRootComponent >> renderContentOn: html [
 
 { #category : #rendering }
 ASDPORRootComponent >> renderRightPanel: html [
-html div
-										shadow: 0;
-										style: 'height: 700px; display: flex;';
-										with: ASDSComponentWithRightPanel new
-	
+
+	html div
+		shadow: 0;
+		style: 'height: 700px; display: flex;';
+		with: self rightPanel 
 ]
 
 { #category : #accessing }
