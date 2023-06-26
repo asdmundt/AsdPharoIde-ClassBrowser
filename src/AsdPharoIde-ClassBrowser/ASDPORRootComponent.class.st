@@ -9,7 +9,9 @@ Class {
 		'componentInstances',
 		'footer',
 		'showLoginError',
-		'rightPanel'
+		'rightPanel',
+		'idDialog',
+		'idPlayGrount'
 	],
 	#category : #'AsdPharoIde-ClassBrowser-Core'
 }
@@ -128,7 +130,7 @@ ASDPORRootComponent >> goToLoginView [
 
 { #category : #actions }
 ASDPORRootComponent >> goToOverviewView [
-	self displayInstanceOf: ASDSOverviewPage
+	self displayInstanceOf: ASDPORHomePage
 ]
 
 { #category : #accessing }
@@ -144,6 +146,16 @@ ASDPORRootComponent >> header [
 { #category : #accessing }
 ASDPORRootComponent >> header: aComponent [
 	header := aComponent
+]
+
+{ #category : #accessing }
+ASDPORRootComponent >> idDialog [
+	^ 'idDialog'
+]
+
+{ #category : #accessing }
+ASDPORRootComponent >> idPlayGrount [
+	^ 'idPlayGrount'
 ]
 
 { #category : #hooks }
@@ -190,6 +202,7 @@ ASDPORRootComponent >> renderContentOn: html [
 		with: [ html render: self header.
 			html mdlLayoutContent
 				class: 'mdl-color-text--grey-600';
+				id: 'dhtmlwindowholder';
 				with: [ html mdlGrid
 						noSpacing;
 						with: [ "noSpacing;""html render: self footer"
@@ -198,7 +211,7 @@ ASDPORRootComponent >> renderContentOn: html [
 								size: 12;
 								stretch;
 								with: [ html div
-									class: 'component-centered';
+										class: 'component-centered';
 										id: #main;
 										with: [ html render: self componentToDisplay ].
 									html render: self rightPanel ] ] ] ].

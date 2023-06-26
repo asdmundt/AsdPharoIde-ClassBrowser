@@ -1,11 +1,11 @@
 Class {
-	#name : #ASDBPORHeader,
-	#superclass : #ASDBComponent,
+	#name : #ASDBPORHeaderPharoIde,
+	#superclass : #ASDBPORHeader,
 	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 
 { #category : #rendering }
-ASDBPORHeader >> __renderContentOn: html [
+ASDBPORHeaderPharoIde >> __renderContentOn: html [
 	html mdlLayout
 		with: [ html mdlLayoutHeader
 				with: [ html
@@ -19,7 +19,7 @@ ASDBPORHeader >> __renderContentOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> _renderContentOn: html [
+ASDBPORHeaderPharoIde >> _renderContentOn: html [
 	html mdlLayout
 		with: [ html mdlLayoutHeader
 				with:
@@ -40,12 +40,12 @@ ASDBPORHeader >> _renderContentOn: html [
 ]
 
 { #category : #accessing }
-ASDBPORHeader >> possiblePages [
-	^ ASDPORPage pagesToDisplay
+ASDBPORHeaderPharoIde >> possiblePages [
+	^ ASDPORPageModules pagesToDisplay
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderAccountButtonOn: html [
+ASDBPORHeaderPharoIde >> renderAccountButtonOn: html [
 	html
 		mdlNavigation: [ html mdlButton icon
 				id: #bottomLeftButton;
@@ -64,7 +64,7 @@ ASDBPORHeader >> renderAccountButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderAddButtonOn: html [
+ASDBPORHeaderPharoIde >> renderAddButtonOn: html [
 	html
 		mdlNavigation: [ html mdlButton icon
 				id: #bottomLeftButton;
@@ -83,28 +83,28 @@ ASDBPORHeader >> renderAddButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderButtonsOn: html [
+ASDBPORHeaderPharoIde >> renderButtonsOn: html [
 	self session isLogged
 		ifFalse: [ ^ self ].
 	self renderAccountButtonOn: html
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderContentOn: html [
+ASDBPORHeaderPharoIde >> renderContentOn: html [
 	html mdlLayoutHeader
 		with: [ "self renderDrawerOn: html"
 			html
 				mdlLayoutHeaderRow: [ html mdlNavigationLink
 						callback: [ "Just refresh" ];
 						with: [ html mdlLayoutTitle: [ html text: 'Pharo Online IDE' ] ].
-					
+					self renderNavMenu: html.
 					html mdlLayoutSpacer.
 					self renderButtonsOn: html ].
-			self renderTabBarOn: html ]
+			 ]
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderDrawerOn: html [
+ASDBPORHeaderPharoIde >> renderDrawerOn: html [
 	html
 		mdlLayoutDrawer: [ html
 				mdlNavigation: [ self possiblePages
@@ -116,13 +116,15 @@ ASDBPORHeader >> renderDrawerOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderNavMenu: html [
-	html
-						mdlNavigation: [ 1 to: 5 do: [ :i | html mdlNavigationLink: 'Link' ] ]
+ASDBPORHeaderPharoIde >> renderNavMenu: html [
+html mdlNavigation: [
+							html mdlNavigationLink
+								onClick: (html jQuery id: self rootComponent idDialog ) dialog open;
+		with: 'ClassBrowser'. ] 
 ]
 
 { #category : #rendering }
-ASDBPORHeader >> renderTabBarOn: html [
+ASDBPORHeaderPharoIde >> renderTabBarOn: html [
 
 	html mdlLayoutTabBar: [ 
 		self possiblePages do: [ :aClass | 
