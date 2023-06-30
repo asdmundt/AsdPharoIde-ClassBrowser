@@ -1,6 +1,6 @@
 Class {
 	#name : #ASDPOClassBrowser,
-	#superclass : #WATool,
+	#superclass : #WAComponent,
 	#instVars : [
 		'contents',
 		'model',
@@ -85,16 +85,27 @@ ASDPOClassBrowser >> contents: aString [
 
 { #category : #hooks }
 ASDPOClassBrowser >> initialRequest: aRequest [
+
 	| theClass |
 	super initialRequest: aRequest.
-	aRequest fields at: 'class' ifPresent: [ :className |
-		Smalltalk at: className asSymbol ifPresent: [ :class |
-			theClass := (aRequest fields includesKey: 'meta')
-				ifTrue: [ class class ]
-				ifFalse: [ class ].
-			self model setClass: theClass selector: nil.
-			aRequest fields at: 'method' ifPresent: [ :selector |
-				self model setClass: theClass selector: selector asSymbol ] ] ]
+		self session rootComponent class development ifTrue: [ 
+							Transcript show:
+									'#################initialRequest####################'
+							].
+	aRequest fields at: 'class' ifPresent: [ :className | 
+			Smalltalk at: className asSymbol ifPresent: [ :class | 
+					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
+							            class class ]
+							            ifFalse: [ class ].
+					self session rootComponent class development ifTrue: [ 
+							Transcript show:
+									'#################' , theClass , '####################'
+							].
+					self model setClass: theClass selector: nil.
+					aRequest fields at: 'method' ifPresent: [ :selector | 
+							self model setClass: theClass selector: selector asSymbol ]
+					]
+			]
 ]
 
 { #category : #initialization }
@@ -102,8 +113,12 @@ ASDPOClassBrowser >> initialize [
 
 	super initialize.
 	self model: self class browserClass new.
-	self monacoComponent:
-			(MonacoComponent code: self contents  language: MonacoLanguage smalltalk)
+	self session rootComponent class development ifTrue: [ 
+			Transcript show:
+					'#################' , self model printString , '####################'
+			].
+	self monacoComponent: (MonacoComponent code: self contents
+					 language: MonacoLanguage smalltalk)
 ]
 
 { #category : #accessing }
@@ -305,18 +320,6 @@ ASDPOClassBrowser >> text [
 { #category : #notifying }
 ASDPOClassBrowser >> update: aSymbol [
 	contents := model contents
-]
-
-{ #category : #updating }
-ASDPOClassBrowser >> updateRoot: anHtmlRoot [
-	super updateRoot: anHtmlRoot.
-	anHtmlRoot link
-		beStylesheet;
-		url: 'https://fonts.googleapis.com/css?family=Roboto'.
-	anHtmlRoot javascript
-		url:
-			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'.
-	anHtmlRoot title: 'Monaco Demo - ' , self class version
 ]
 
 { #category : #updating }

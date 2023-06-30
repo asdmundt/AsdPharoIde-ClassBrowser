@@ -7,10 +7,23 @@ Class {
 		'task',
 		'model',
 		'first',
-		'loginError'
+		'loginError',
+		'classBrowser'
 	],
 	#category : #'AsdPharoIde-ClassBrowser-Utils'
 }
+
+{ #category : #accessing }
+ASDPORPSession >> classBrowser [
+
+	^ classBrowser
+]
+
+{ #category : #accessing }
+ASDPORPSession >> classBrowser: anObject [
+
+	classBrowser := anObject
+]
 
 { #category : #accessing }
 ASDPORPSession >> currentUser [

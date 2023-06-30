@@ -19,7 +19,8 @@ ASDPORPharoIdePage class >> priority [
 
 { #category : #hooks }
 ASDPORPharoIdePage >> children [
-	^ { self rightPanel}
+
+	^ { self classBrowser }
 ]
 
 { #category : #accessing }
@@ -36,16 +37,21 @@ ASDPORPharoIdePage >> initialize [
 
 { #category : #rendering }
 ASDPORPharoIdePage >> renderContentOn: html [
+
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';
-		with: [ html mdlCell
+		with: [ 
+			html mdlCell
 				stretch;
 				size: 12;
-				with: [ self
-						renderWindowOn: html
-						withComponent: self classBrowser
-						andId: self session rootComponent idDialog ] ]
+				with: [ 
+					"self renderWindowOn: html
+							withComponent: self classBrowser
+							andId: self session rootComponent idDialog"
+							html render: self classBrowser 
+					]
+			]
 ]
 
 { #category : #rendering }

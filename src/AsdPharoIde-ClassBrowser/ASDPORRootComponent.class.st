@@ -150,23 +150,41 @@ ASDPORRootComponent >> idPlayGrount [
 
 { #category : #hooks }
 ASDPORRootComponent >> initialRequest: aRequest [
-	| consumer pageName |
+
+	| consumer pageName theClass |
 	super initialRequest: aRequest.
 	consumer := self requestContext consumer.
-	
+
 	"If we are at end, nothing to manage"
-	consumer atEnd
-		ifTrue: [ ^ self ].
-	pageName := consumer peek asLowercase.	"Do not make URLs case sensitive in that case"
+	consumer atEnd ifTrue: [ ^ self ].
+	pageName := consumer peek asLowercase. "Do not make URLs case sensitive in that case"
 
 	"Try to find a page corresponding"
-	self header possiblePages
-		detect: [ :each | each pathName asLowercase = pageName ]
-		ifFound: [ :class | 
-			self displayInstanceOf: class.
+	self header possiblePages detect: [ :each | 
+			each pathName asLowercase = pageName ]
+			ifFound: [ :class | 
+				self displayInstanceOf: class.
 
-			"If we find a page, we pop the subpart of the path corresponding to the page."
-			consumer next ]
+				"If we find a page, we pop the subpart of the path corresponding to the page."
+				consumer next
+				].
+			self session rootComponent class development ifTrue: [ 
+			Transcript show:
+					'#################initialRequest####################' ].
+	aRequest fields at: 'class' ifPresent: [ :className | 
+			Smalltalk at: className asSymbol ifPresent: [ :class | 
+					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
+							            class class ]
+							            ifFalse: [ class ].
+					self session rootComponent class development ifTrue: [ 
+							Transcript show:
+									'#################' , theClass , '####################'
+							].
+					self model setClass: theClass selector: nil.
+					aRequest fields at: 'method' ifPresent: [ :selector | 
+							self model setClass: theClass selector: selector asSymbol ]
+					]
+			]
 ]
 
 { #category : #initialization }
@@ -253,6 +271,7 @@ ASDPORRootComponent >> tryConnectionWithLogin: login andPassword: password [
 
 { #category : #updating }
 ASDPORRootComponent >> updateRoot: anHtmlRoot [
+
 	super updateRoot: anHtmlRoot.
 	anHtmlRoot beHtml5.
 	anHtmlRoot title: 'ASDMundt Online Ide'.
@@ -262,10 +281,11 @@ ASDPORRootComponent >> updateRoot: anHtmlRoot [
 	"self updateTabIconRoot: anHtmlRoot."
 	"anHtmlRoot stylesheet url: (WAUrl absolute: 'https://code.getmdl.io/1.3.0/material.blue_grey-blue.min.css').
 	anHtmlRoot javascript add: 'hljs.initHighlightingOnLoad();'."
-	anHtmlRoot stylesheet
-		url:
+	anHtmlRoot javascript url:
+			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'.
+	anHtmlRoot stylesheet url:
 			'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/'
-				, 'base' , '/jquery-ui.css'
+			, 'base' , '/jquery-ui.css'
 ]
 
 { #category : #updating }

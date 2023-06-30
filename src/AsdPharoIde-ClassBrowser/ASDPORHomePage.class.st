@@ -23,11 +23,24 @@ ASDPORHomePage >> initialize [
 
 { #category : #rendering }
 ASDPORHomePage >> renderContentOn: html [
+
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';
-		with: [ html mdlCell
+		with: [ 
+			html mdlCell
 				middle;
 				size: 12;
-				with: [ self rendeModalLoginButtonOn: html ] ]
+				with: [ 	html div
+		mdlTypographyTextJustify;
+		with:
+				[ #('display-4' 'display-3' 'display-2' 'display-1' 'headline' 'title' 'subhead' 'body-2' 'body-1' 'body-2-Force-Preferred-Font' 'body-1-Force-Preferred-Font' 'caption' 'caption-Force-Preferred-Font' 'menu' 'button')
+				do: [ :each | 
+					| selector |
+					selector := ('mdlTypography' , (each capitalized copyReplaceAll: '-' with: '' )) asSymbol.	"For example `#mdlTypographyCaptionForcePreferredFont`"
+					html div
+						style: 'margin: 10px 0;';
+						perform: selector;
+						with: each asLowercase capitalized ] ] ]
+			]
 ]

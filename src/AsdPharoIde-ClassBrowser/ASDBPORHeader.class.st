@@ -41,7 +41,9 @@ ASDBPORHeader >> _renderContentOn: html [
 
 { #category : #accessing }
 ASDBPORHeader >> possiblePages [
-	^ ASDPORPage pagesToDisplay
+self session isLogged
+		ifTrue: [^ ASDPORPageModules pagesToDisplay]
+		ifFalse: [ ^ ASDPORPage pagesToDisplay ]
 ]
 
 { #category : #rendering }
