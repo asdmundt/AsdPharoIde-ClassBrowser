@@ -73,8 +73,7 @@ ASDPORPlanung class >> version [
 
 { #category : #operations }
 ASDPORPlanung >> addLoggedUser: aUser [
-	
-	loggedUsers add: aUser
+	self loggedUsers add: aUser
 ]
 
 { #category : #operations }

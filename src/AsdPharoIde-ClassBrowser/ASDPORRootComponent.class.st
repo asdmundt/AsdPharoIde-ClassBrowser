@@ -150,52 +150,53 @@ ASDPORRootComponent >> idPlayGrount [
 
 { #category : #hooks }
 ASDPORRootComponent >> initialRequest: aRequest [
-
 	| consumer pageName theClass |
 	super initialRequest: aRequest.
 	consumer := self requestContext consumer.
 
 	"If we are at end, nothing to manage"
-	consumer atEnd ifTrue: [ ^ self ].
-	pageName := consumer peek asLowercase. "Do not make URLs case sensitive in that case"
+	consumer atEnd
+		ifTrue: [ ^ self ].
+	pageName := consumer peek asLowercase.	"Do not make URLs case sensitive in that case"
 
 	"Try to find a page corresponding"
-	self header possiblePages detect: [ :each | 
-			each pathName asLowercase = pageName ]
-			ifFound: [ :class | 
-				self displayInstanceOf: class.
+	self header possiblePages
+		detect: [ :each | each pathName asLowercase = pageName ]
+		ifFound: [ :class | 
+			self displayInstanceOf: class.
 
-				"If we find a page, we pop the subpart of the path corresponding to the page."
-				consumer next
-				].
-			self session rootComponent class development ifTrue: [ 
-			Transcript show:
-					'#################initialRequest####################' ].
-	aRequest fields at: 'class' ifPresent: [ :className | 
-			Smalltalk at: className asSymbol ifPresent: [ :class | 
-					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
-							            class class ]
-							            ifFalse: [ class ].
-					self session rootComponent class development ifTrue: [ 
-							Transcript show:
-									'#################' , theClass , '####################'
-							].
-					self model setClass: theClass selector: nil.
-					aRequest fields at: 'method' ifPresent: [ :selector | 
-							self model setClass: theClass selector: selector asSymbol ]
-					]
-			]
+			"If we find a page, we pop the subpart of the path corresponding to the page."
+			consumer next ].
+	self session rootComponent class development
+		ifTrue: [ Transcript
+				show: '#################initialRequest####################' ].
+	aRequest fields
+		at: 'class'
+		ifPresent: [ :className | 
+			Smalltalk
+				at: className asSymbol
+				ifPresent: [ :class | 
+					theClass := (aRequest fields includesKey: 'meta')
+						ifTrue: [ class class ]
+						ifFalse: [ class ].
+					self session rootComponent class development
+						ifTrue: [ Transcript
+								show: '#################' , theClass , '####################' ].
+					self session classBrowser setClass: theClass selector: nil.
+					aRequest fields
+						at: 'method'
+						ifPresent:
+							[ :selector | self session classBrowser setClass: theClass selector: selector asSymbol ] ] ]
 ]
 
 { #category : #initialization }
 ASDPORRootComponent >> initialize [
-
 	super initialize.
 	self header: self defaultHeader.
-	
 	self session rootComponent: self.
 	self rightPanel: ASDComponentWithRightPanel new.
 	self componentInstances: Dictionary new.
+	self session classBrowser: ASDPOClassBrowser new.
 	self displayInstanceOf: self header possiblePages first
 ]
 
