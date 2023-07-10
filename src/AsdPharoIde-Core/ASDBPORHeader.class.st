@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDBPORHeader,
 	#superclass : #ASDPORComponent,
-	#category : #'AsdPharoIde-ClassBrowser-Component'
+	#category : #'AsdPharoIde-Core-Component'
 }
 
 { #category : #rendering }

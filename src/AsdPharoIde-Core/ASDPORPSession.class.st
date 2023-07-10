@@ -10,7 +10,7 @@ Class {
 		'loginError',
 		'classBrowser'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Utils'
+	#category : #'AsdPharoIde-Core-Utils'
 }
 
 { #category : #accessing }
@@ -96,4 +96,10 @@ ASDPORPSession >> rootComponent [
 { #category : #accessing }
 ASDPORPSession >> rootComponent: aRootComponent [
 	rootComponent := aRootComponent
+]
+
+{ #category : #operations }
+ASDPORPSession >> setLoginError [
+
+self loginError: true
 ]

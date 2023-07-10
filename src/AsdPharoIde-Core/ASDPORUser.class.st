@@ -15,7 +15,7 @@ Class {
 		'instReady',
 		'isInstallReady'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Model'
+	#category : #'AsdPharoIde-Core-Model'
 }
 
 { #category : #'instance creation' }

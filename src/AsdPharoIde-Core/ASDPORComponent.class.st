@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDPORComponent,
 	#superclass : #WAComponent,
-	#category : #'AsdPharoIde-ClassBrowser-Core'
+	#category : #'AsdPharoIde-Core-Core'
 }
 
 { #category : #actions }

@@ -1,5 +1,5 @@
 Class {
 	#name : #ASDPORModel,
 	#superclass : #ASDModel,
-	#category : #'AsdPharoIde-ClassBrowser-Model'
+	#category : #'AsdPharoIde-Core-Model'
 }
