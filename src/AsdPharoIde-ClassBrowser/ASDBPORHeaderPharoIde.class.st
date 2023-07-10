@@ -5,46 +5,6 @@ Class {
 }
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> __renderContentOn: html [
-	html mdlLayout
-		with: [ html mdlLayoutHeader
-				with: [ html
-						mdlLayoutHeaderRow: [ html mdlLayoutTitle: 'Title'.
-							html mdlLayoutSpacer.
-							html mdlNavigation: [ self possiblePages do: [ :aClass | html mdlNavigationLink: 'Link' ] ] ] ].
-			html
-				mdlLayoutDrawer: [ html mdlLayoutTitle: 'Title'.
-					html mdlNavigation: [ 1 to: 5 do: [ :i | html mdlNavigationLink: 'Link' ] ] ].
-			html mdlLayoutContent: [  ] ]
-]
-
-{ #category : #rendering }
-ASDBPORHeaderPharoIde >> _renderContentOn: html [
-	html mdlLayout
-		with: [ html mdlLayoutHeader
-				with:
-					[ "style: 'background: url(''http://localhost/FrankfurtSkylineII.jpg'') ;';"
-					html
-						mdlLayoutHeaderRow: [ html mdlNavigationLink
-								callback: [ "Just refresh" ];
-								with: [ html mdlLayoutTitle: 'Mediadaten Verwaltung   ' ].
-							html mdlLayoutSpacer.
-							self renderButtonsOn: html ].
-					html
-						mdlLayoutTabBar: [ self possiblePages
-								do: [ :aClass | 
-									html mdlLayoutTab
-										callback: [ self displayInstanceOf: aClass ];
-										isActiveIf: aClass = self rootComponent componentToDisplay class;
-										with: aClass pageName ] ] ] ]
-]
-
-{ #category : #accessing }
-ASDBPORHeaderPharoIde >> possiblePages [
-	^ ASDPORPageModules pagesToDisplay
-]
-
-{ #category : #rendering }
 ASDBPORHeaderPharoIde >> renderAccountButtonOn: html [
 	html
 		mdlNavigation: [ html mdlButton icon
@@ -117,10 +77,14 @@ ASDBPORHeaderPharoIde >> renderDrawerOn: html [
 
 { #category : #rendering }
 ASDBPORHeaderPharoIde >> renderNavMenu: html [
-html mdlNavigation: [
-							html mdlNavigationLink
-								onClick: (html jQuery id: self rootComponent idDialog ) dialog open;
-		with: 'ClassBrowser'. ] 
+
+	html mdlNavigation: [ 
+			html mdlNavigationLink
+				onClick:
+					(html jQuery id: self rootComponent idDialog , 'Playground')
+						dialog open;
+				with: 'Playground'
+			]
 ]
 
 { #category : #rendering }

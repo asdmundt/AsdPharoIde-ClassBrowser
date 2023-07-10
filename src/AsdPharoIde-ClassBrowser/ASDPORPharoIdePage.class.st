@@ -2,7 +2,8 @@ Class {
 	#name : #ASDPORPharoIdePage,
 	#superclass : #ASDPORPageModules,
 	#instVars : [
-		'classBrowser'
+		'classBrowser',
+		'playGround'
 	],
 	#category : #'AsdPharoIde-ClassBrowser-Web'
 }
@@ -35,6 +36,18 @@ ASDPORPharoIdePage >> initialize [
 	classBrowser := ASDPOClassBrowser new.
 ]
 
+{ #category : #accessing }
+ASDPORPharoIdePage >> playGround [
+
+	^ playGround
+]
+
+{ #category : #accessing }
+ASDPORPharoIdePage >> playGround: anObject [
+
+	playGround := anObject
+]
+
 { #category : #rendering }
 ASDPORPharoIdePage >> renderContentOn: html [
 
@@ -46,12 +59,15 @@ ASDPORPharoIdePage >> renderContentOn: html [
 				stretch;
 				size: 12;
 				with: [ 
-					"self renderWindowOn: html
-							withComponent: self classBrowser
-							andId: self session rootComponent idDialog"
-							html render: self classBrowser 
+					html div
+						id:'classBrowser';
+						with:[ html render: self classBrowser ].
+
 					]
-			]
+			].
+		self renderWindowOn: html
+							withComponent: self classBrowser
+							andId: self session rootComponent idDialog , 'Playground'
 ]
 
 { #category : #rendering }

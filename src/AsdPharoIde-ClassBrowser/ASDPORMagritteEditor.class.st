@@ -1,17 +1,16 @@
 Class {
-	#name : #ASDPOClassBrowser,
+	#name : #ASDPORMagritteEditor,
 	#superclass : #WAComponent,
 	#instVars : [
 		'contents',
 		'model',
-		'message',
-		'monacoComponent'
+		'message'
 	],
 	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 
 { #category : #accessing }
-ASDPOClassBrowser class >> browserClass [
+ASDPORMagritteEditor class >> browserClass [
 
 	^ Smalltalk at:
 			  ((Smalltalk hasClassNamed: #Browser) ifTrue: [ #Browser ]
@@ -19,27 +18,22 @@ ASDPOClassBrowser class >> browserClass [
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser class >> description [
+ASDPORMagritteEditor class >> description [
 	^ 'Smalltalk Code Browser'
 ]
 
 { #category : #'instance creation' }
-ASDPOClassBrowser class >> fullOnClass: aClass [
+ASDPORMagritteEditor class >> fullOnClass: aClass [
 	^ self fullOnClass: aClass selector: nil
 ]
 
-{ #category : #'instance creation' }
-ASDPOClassBrowser class >> fullOnClass: aClass selector: aSelector [
-	^ self new model: (self browserClass new setClass: aClass selector: aSelector)
-]
-
 { #category : #testing }
-ASDPOClassBrowser class >> version [
+ASDPORMagritteEditor class >> version [
 	^ 'v1.0.0'
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> accept [
+ASDPORMagritteEditor >> accept [
 	| save |
 	WADevelopment ensureAuthorInitialsWith: [ :question |
 		self request: question ].
@@ -50,7 +44,7 @@ ASDPOClassBrowser >> accept [
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> addAccessor [
+ASDPORMagritteEditor >> addAccessor [
 	| selClass tmpModelClass |
 	selClass := self model selectedClass.
 	"self halt."
@@ -63,28 +57,28 @@ ASDPOClassBrowser >> addAccessor [
 ]
 
 { #category : #hooks }
-ASDPOClassBrowser >> children [
+ASDPORMagritteEditor >> children [
 ^ Array with: self monacoComponent 
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> columns [
+ASDPORMagritteEditor >> columns [
 	^ #( systemCategory class messageCategory message )
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> contents [
+ASDPORMagritteEditor >> contents [
 	^ contents
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> contents: aString [ 
+ASDPORMagritteEditor >> contents: aString [ 
 	"the browser sends CRLF as line ending but Squeak wants CR"
 	contents := GRPlatform current convertToSmalltalkNewlines: aString
 ]
 
 { #category : #hooks }
-ASDPOClassBrowser >> initialRequest: aRequest [
+ASDPORMagritteEditor >> initialRequest: aRequest [
 
 	| theClass |
 	super initialRequest: aRequest.
@@ -109,102 +103,78 @@ ASDPOClassBrowser >> initialRequest: aRequest [
 ]
 
 { #category : #initialization }
-ASDPOClassBrowser >> initialize [
+ASDPORMagritteEditor >> initialize [
 
 	super initialize.
 	self model: self class browserClass new.
 	self session rootComponent class development ifTrue: [ 
 			Transcript show:
-					'#################' , self model printString , '####################'
+					'#################' , self model printString
+					, '####################'
 			].
-	self monacoComponent: (MonacoComponent code: self contents
-					 language: MonacoLanguage smalltalk)
+
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> model [
+ASDPORMagritteEditor >> model [
 	^ model
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> model: aBrowserModel [
+ASDPORMagritteEditor >> model: aBrowserModel [
 	model notNil ifTrue: [ model removeDependent: self ].
 	aBrowserModel notNil ifTrue: [ aBrowserModel addDependent: self ].
 	model := aBrowserModel.
 	contents := model contents
 ]
 
-{ #category : #accessing }
-ASDPOClassBrowser >> monacoComponent [
-
-	^ monacoComponent
-]
-
-{ #category : #accessing }
-ASDPOClassBrowser >> monacoComponent: anObject [
-
-	monacoComponent := anObject
-]
-
 { #category : #notifying }
-ASDPOClassBrowser >> notify: aString at: location in: sourceStream [
+ASDPORMagritteEditor >> notify: aString at: location in: sourceStream [
 	message := aString allButLast: 3
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderColumnsOn: html [
-
-	html div
-		class: 'columns';
-		with: [ 
-			self columns do: [ :each | 
-						html form
-							class: 'column';
-							with: [ 
-								| array |
-								array := self model perform: (each , 'List') asSymbol.
-								html div: [ 
-											html select
-												class: each;
-												size: 10;
-												list: array;
-												"Very ugly hack to intentionally not delegate to WAScriptGenerator.
+ASDPORMagritteEditor >> renderColumnsOn: html [
+	html div class: 'columns'; with: [
+		self columns do: [ :each |
+			html form class: 'column'; with: [
+				| array |
+				array := self model perform: (each , 'List') asSymbol.
+				html div: [
+					html select
+						size: 10;
+						list: array;
+						"Very ugly hack to intentionally not delegate to WAScriptGenerator.
 						If we delegate to WAScriptGenerator and the script generator is jQuery
 						then #onChange: will result in
 						$.bind('change', function(){submit()});
 						which will blow up because submit() will not defined"
-												attributeAt: 'onchange'
-												put: 'submit()';
-												selected:
-													(array at:
-																 (self model perform: (each , 'ListIndex') asSymbol)
-															 ifAbsent: [ nil ]);
-												callback: [ :item | 
-													self model perform: (each , 'ListIndex:') asSymbol
-															with: (array indexOf: item)
-													]
-											]
-								]
-						]
-			]
+						attributeAt: 'onchange' put: 'submit()';
+						selected: (array
+							at: (self model perform: (each, 'ListIndex') asSymbol)
+							ifAbsent: [ nil ]);
+						callback: [ :item |
+							self model
+								perform: (each, 'ListIndex:') asSymbol
+								with: (array indexOf: item) ] ] ] ] ]
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderContentOn: html [
-html jQuery ready: (html javascript alert: 'Hello').
+ASDPORMagritteEditor >> renderContentOn: html [
+
 	html div
 		style: '';
-		with: [ 
-			self
-				renderColumnsOn: html;
-				renderModeButtonsOn: html;
-				renderMessageOn: html;
-				renderContentPaneOn: html
-			]
+		with:[
+	self
+		renderColumnsOn: html;
+		renderModeButtonsOn: html;
+		renderMessageOn: html;
+		renderContentPaneOn: html
+		]
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderContentPaneOn: html [
+ASDPORMagritteEditor >> renderContentPaneOn: html [
 	html form
 		class: 'definition';
 		with: [ html
@@ -236,13 +206,13 @@ ASDPOClassBrowser >> renderContentPaneOn: html [
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderMessageOn: html [
+ASDPORMagritteEditor >> renderMessageOn: html [
 	message isNil
 		ifFalse: [ html strong: message ]
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderModeButtonsOn: html [
+ASDPORMagritteEditor >> renderModeButtonsOn: html [
 	html form
 		class: 'mode';
 		with: [ html
@@ -262,53 +232,47 @@ ASDPOClassBrowser >> renderModeButtonsOn: html [
 ]
 
 { #category : #rendering }
-ASDPOClassBrowser >> renderMonacoComponentOn: html [
+ASDPORMagritteEditor >> renderMonacoComponentOn: html [
 	html render: (MonacoComponent
 				code: self contents
 				language: MonacoLanguage smalltalk)
 ]
 
-{ #category : #hooks }
-ASDPOClassBrowser >> script [
-
-	^ '$(document).ready(function(){$(''a.mylinks'').addcontextmenu(''contextmenu1'')});'
-]
-
 { #category : #notifying }
-ASDPOClassBrowser >> select [
+ASDPORMagritteEditor >> select [
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> selectFrom: aPos to: anotherPos [
+ASDPORMagritteEditor >> selectFrom: aPos to: anotherPos [
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> selectionInterval [
+ASDPORMagritteEditor >> selectionInterval [
 	^ 1 to: 1
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> showClass [
+ASDPORMagritteEditor >> showClass [
 	self model indicateClassMessages
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> showHelp [
+ASDPORMagritteEditor >> showHelp [
 	self model plusButtonHit
 ]
 
 { #category : #actions }
-ASDPOClassBrowser >> showInstance [
+ASDPORMagritteEditor >> showInstance [
 	self model indicateInstanceMessages
 ]
 
 { #category : #hooks }
-ASDPOClassBrowser >> states [
+ASDPORMagritteEditor >> states [
 	^ Array with: model
 ]
 
 { #category : #hooks }
-ASDPOClassBrowser >> style [
+ASDPORMagritteEditor >> style [
 	^ 'form, div.columns {
 	padding: 2px;
 	margin: 0;
@@ -336,17 +300,17 @@ form.definition textarea {
 ]
 
 { #category : #accessing }
-ASDPOClassBrowser >> text [
+ASDPORMagritteEditor >> text [
 	^ Text fromString: self contents
 ]
 
 { #category : #notifying }
-ASDPOClassBrowser >> update: aSymbol [
+ASDPORMagritteEditor >> update: aSymbol [
 	contents := model contents
 ]
 
 { #category : #updating }
-ASDPOClassBrowser >> updateUrl: aUrl [
+ASDPORMagritteEditor >> updateUrl: aUrl [
 	super updateUrl: aUrl.
 	self model selectedClass isNil ifFalse: [
 		aUrl addField: 'class' value: self model selectedClass fullName.
