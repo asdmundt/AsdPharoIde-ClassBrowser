@@ -51,15 +51,17 @@ ASDPOClassBrowser >> accept [
 
 { #category : #actions }
 ASDPOClassBrowser >> addAccessor [
+
 	| selClass tmpModelClass |
 	selClass := self model selectedClass.
 	"self halt."
-	selClass
-		ifNotNil: [ Transcript show: selClass.
+	selClass ifNotNil: [ 
+			
 			tmpModelClass := ASDPORModelCreateAccessors selClass: selClass.
 			tmpModelClass selClass: selClass.
 			tmpModelClass apllyingRefacturing.
-			self model indicateInstanceMessages ]
+			self model indicateInstanceMessages
+			]
 ]
 
 { #category : #hooks }
@@ -165,7 +167,7 @@ ASDPOClassBrowser >> renderColumnsOn: html [
 								array := self model perform: (each , 'List') asSymbol.
 								html div: [ 
 											html select
-												class: each;
+												class:each;
 												size: 10;
 												list: array;
 												"Very ugly hack to intentionally not delegate to WAScriptGenerator.
@@ -191,7 +193,8 @@ ASDPOClassBrowser >> renderColumnsOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderContentOn: html [
-html jQuery ready: (html javascript alert: 'Hello').
+
+	html jQuery ready: (html javascript alert: 'Hello').
 	html div
 		style: '';
 		with: [ 
@@ -200,7 +203,20 @@ html jQuery ready: (html javascript alert: 'Hello').
 				renderModeButtonsOn: html;
 				renderMessageOn: html;
 				renderContentPaneOn: html
-			]
+			].
+	html unorderedList
+		id: 'contextmenuClass';
+		with: [ 
+			html listItem with: [ 
+						html anchor
+							callback: [ ASDMagritteCreatorComponent new ];
+							with: 'Add Magritte field'.
+			html listItem with: [ 
+						html anchor
+							callback: [ self addAccessor  ];
+							with: 'Add Accessor'.							
+						]
+			]]
 ]
 
 { #category : #rendering }
@@ -271,7 +287,7 @@ ASDPOClassBrowser >> renderMonacoComponentOn: html [
 { #category : #hooks }
 ASDPOClassBrowser >> script [
 
-	^ '$(document).ready(function(){$(''a.mylinks'').addcontextmenu(''contextmenu1'')});'
+	^ '$(document).ready(function(){$(''.class'').addcontextmenu(''contextmenuClass'')});'
 ]
 
 { #category : #notifying }
