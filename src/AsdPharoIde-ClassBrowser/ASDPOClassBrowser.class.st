@@ -259,22 +259,40 @@ ASDPOClassBrowser >> renderMessageOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderModeButtonsOn: html [
+
 	html form
 		class: 'mode';
-		with: [ html
-				div: [ html submitButton
-						callback: [ self showInstance ];
-						value: 'instance'.
-					html submitButton
-						callback: [ self showHelp ];
-						value: 'help'.
-					html submitButton
-						callback: [ self showClass ];
-						value: 'class' .
-					html submitButton
-						callback: [ self addAccessor  ];
-						value: 'Accessors' ].
-					 ]
+		with: [ 
+			html div
+					style: 'padding: 8px;';
+					with: [ 
+						html mdlButton
+							callback: [ self showInstance ];
+							raised;
+							beSubmit;
+							rippleEffect;
+							with: 'instance'.
+						html mdlButton
+							callback: [ self showHelp ];
+							raised;
+							beSubmit;
+							rippleEffect;
+							with: 'help'.
+						html mdlButton
+							callback: [ self showClass ];
+							raised;
+							beSubmit;
+							rippleEffect;
+							with: 'class'.
+						html mdlButton
+							id: 'btnAccessors';
+							callback: [ self addAccessor ];
+							raised;
+							beSubmit;
+							rippleEffect;
+							with: 'Accessors'
+						]
+			]
 ]
 
 { #category : #rendering }
