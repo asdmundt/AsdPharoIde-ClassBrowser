@@ -99,10 +99,7 @@ ASDPOClassBrowser >> initialRequest: aRequest [
 					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
 							            class class ]
 							            ifFalse: [ class ].
-					self session rootComponent class development ifTrue: [ 
-							Transcript show:
-									'#################' , theClass , '####################'
-							].
+				
 					self model setClass: theClass selector: nil.
 					aRequest fields at: 'method' ifPresent: [ :selector | 
 							self model setClass: theClass selector: selector asSymbol ]
@@ -194,9 +191,8 @@ ASDPOClassBrowser >> renderColumnsOn: html [
 { #category : #rendering }
 ASDPOClassBrowser >> renderContentOn: html [
 
-	html jQuery ready: (html javascript alert: 'Hello').
 	html div
-		style: '';
+		id: 'classBrowser';
 		with: [ 
 			self
 				renderColumnsOn: html;
@@ -206,17 +202,36 @@ ASDPOClassBrowser >> renderContentOn: html [
 			].
 	html unorderedList
 		id: 'contextmenuClass';
+		class: 'jqcontextmenu';
 		with: [ 
 			html listItem with: [ 
 						html anchor
 							callback: [ ASDMagritteCreatorComponent new ];
 							with: 'Add Magritte field'.
-			html listItem with: [ 
-						html anchor
-							callback: [ self addAccessor  ];
-							with: 'Add Accessor'.							
+						html listItem with: [ 
+								html anchor
+									callback: [ self addAccessor ];
+									with: 'Add Accessor'
+								]
 						]
-			]]
+			].
+	html html: '<script type="text/javascript">'.
+	html html: '	window.addEventListener("resize", jsResize);
+							window.addEventListener("load", jsResize);'.
+	html html: 'function jsResize() {'.
+	html html: 'var ah 	= screen.availHeight;'.
+	html html: 'var aw 	= screen.availWidth;'.
+	html html: 'var mh 	= (ah - 400) + ''px'';'.
+	html html: 'var th 	= (ah - 350) + ''px'';'.
+	html html: 'var lw 	= (aw - 880) + ''px'';'.
+	html html: 'var wlw 	= (aw - 400) + ''px'';'.
+	html html:
+			'document.getElementById("classBrowser").style.width = wlw;'.
+	html html:
+			'document.getElementById("classBrowser").style.height = th;
+		}'.
+	html html: '</script>'.
+
 ]
 
 { #category : #rendering }
@@ -264,34 +279,50 @@ ASDPOClassBrowser >> renderModeButtonsOn: html [
 		class: 'mode';
 		with: [ 
 			html div
-					style: 'padding: 8px;';
-					with: [ 
-						html mdlButton
-							callback: [ self showInstance ];
-							raised;
-							beSubmit;
-							rippleEffect;
-							with: 'instance'.
-						html mdlButton
-							callback: [ self showHelp ];
-							raised;
-							beSubmit;
-							rippleEffect;
-							with: 'help'.
-						html mdlButton
-							callback: [ self showClass ];
-							raised;
-							beSubmit;
-							rippleEffect;
-							with: 'class'.
-						html mdlButton
-							id: 'btnAccessors';
-							callback: [ self addAccessor ];
-							raised;
-							beSubmit;
-							rippleEffect;
-							with: 'Accessors'
-						]
+				style: 'padding: 8px;';
+				with: [ 
+					html mdlButton
+						callback: [ self showInstance ];
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'instance'.
+					html mdlButton
+						callback: [ self showHelp ];
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'help'.
+					html mdlButton
+						callback: [ self showClass ];
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'class'.
+					html mdlButton
+						id: 'btnAccessors';
+						callback: [ self addAccessor ];
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'Accessors'.
+					html mdlButton 
+						id: #bottomLeftButton;
+						with: [ 'Refacturing' ].
+					html mdlMenu
+						bottomLeft;
+						for: #bottomLeftButton;
+						with: [ 
+							html mdlMenuItem: 'Some Action'.
+							html mdlMenuItem
+								fullBleedDivider;
+								with: 'Another Action'.
+							html mdlMenuItem
+								disabled;
+								with: 'Disabled Action'.
+							html mdlMenuItem: 'Yet Another Action'
+							]
+					]
 			]
 ]
 
@@ -377,6 +408,20 @@ ASDPOClassBrowser >> text [
 { #category : #notifying }
 ASDPOClassBrowser >> update: aSymbol [
 	contents := model contents
+]
+
+{ #category : #updating }
+ASDPOClassBrowser >> updateRoot: anHtmlRoot [
+
+	"protocol: updating"
+
+	super updateRoot: anHtmlRoot.
+	anHtmlRoot link
+		beStylesheet;
+		url: 'https://fonts.googleapis.com/css?family=Roboto'.
+	anHtmlRoot javascript url:
+			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'.
+	anHtmlRoot title: 'Pharo Ide - ' , self class version
 ]
 
 { #category : #updating }
