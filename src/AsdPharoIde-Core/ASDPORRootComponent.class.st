@@ -13,7 +13,7 @@ Class {
 		'idDialog',
 		'idPlayGrount'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Core'
+	#category : #'AsdPharoIde-Core-Core'
 }
 
 { #category : #testing }
@@ -116,6 +116,13 @@ ASDPORRootComponent >> footer [
 { #category : #accessing }
 ASDPORRootComponent >> footer: aComponent [
 	footer := aComponent
+]
+
+{ #category : #actions }
+ASDPORRootComponent >> goToLoginView [
+
+	self session setLoginError.
+	 self displayInstanceOf: ASDPORLoginPage
 ]
 
 { #category : #actions }

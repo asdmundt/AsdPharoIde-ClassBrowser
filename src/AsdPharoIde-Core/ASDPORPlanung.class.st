@@ -11,7 +11,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstancePlanung'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Utils'
+	#category : #'AsdPharoIde-Core-Utils'
 }
 
 { #category : #voyage }

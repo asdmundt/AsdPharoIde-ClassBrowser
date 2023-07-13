@@ -51,15 +51,17 @@ ASDPOClassBrowser >> accept [
 
 { #category : #actions }
 ASDPOClassBrowser >> addAccessor [
+
 	| selClass tmpModelClass |
 	selClass := self model selectedClass.
 	"self halt."
-	selClass
-		ifNotNil: [ Transcript show: selClass.
+	selClass ifNotNil: [ 
+			
 			tmpModelClass := ASDPORModelCreateAccessors selClass: selClass.
 			tmpModelClass selClass: selClass.
 			tmpModelClass apllyingRefacturing.
-			self model indicateInstanceMessages ]
+			self model indicateInstanceMessages
+			]
 ]
 
 { #category : #hooks }
@@ -97,10 +99,7 @@ ASDPOClassBrowser >> initialRequest: aRequest [
 					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
 							            class class ]
 							            ifFalse: [ class ].
-					self session rootComponent class development ifTrue: [ 
-							Transcript show:
-									'#################' , theClass , '####################'
-							].
+				
 					self model setClass: theClass selector: nil.
 					aRequest fields at: 'method' ifPresent: [ :selector | 
 							self model setClass: theClass selector: selector asSymbol ]
@@ -153,37 +152,86 @@ ASDPOClassBrowser >> notify: aString at: location in: sourceStream [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderColumnsOn: html [
-	html div class: 'columns'; with: [
-		self columns do: [ :each |
-			html form class: 'column'; with: [
-				| array |
-				array := self model perform: (each , 'List') asSymbol.
-				html div: [
-					html select
-						size: 10;
-						list: array;
-						"Very ugly hack to intentionally not delegate to WAScriptGenerator.
+
+	html div
+		class: 'columns';
+		with: [ 
+			self columns do: [ :each | 
+						html form
+							class: 'column';
+							with: [ 
+								| array |
+								array := self model perform: (each , 'List') asSymbol.
+								html div: [ 
+											html select
+												class:each;
+												size: 10;
+												list: array;
+												"Very ugly hack to intentionally not delegate to WAScriptGenerator.
 						If we delegate to WAScriptGenerator and the script generator is jQuery
 						then #onChange: will result in
 						$.bind('change', function(){submit()});
 						which will blow up because submit() will not defined"
-						attributeAt: 'onchange' put: 'submit()';
-						selected: (array
-							at: (self model perform: (each, 'ListIndex') asSymbol)
-							ifAbsent: [ nil ]);
-						callback: [ :item |
-							self model
-								perform: (each, 'ListIndex:') asSymbol
-								with: (array indexOf: item) ] ] ] ] ]
+												attributeAt: 'onchange'
+												put: 'submit()';
+												selected:
+													(array at:
+																 (self model perform: (each , 'ListIndex') asSymbol)
+															 ifAbsent: [ nil ]);
+												callback: [ :item | 
+													self model perform: (each , 'ListIndex:') asSymbol
+															with: (array indexOf: item)
+													]
+											]
+								]
+						]
+			]
 ]
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderContentOn: html [
-	self
-		renderColumnsOn: html;
-		renderModeButtonsOn: html;
-		renderMessageOn: html;
-		renderContentPaneOn: html
+
+	html div
+		id: 'classBrowser';
+		with: [ 
+			self
+				renderColumnsOn: html;
+				renderModeButtonsOn: html;
+				renderMessageOn: html;
+				renderContentPaneOn: html
+			].
+	html unorderedList
+		id: 'contextmenuClass';
+		class: 'jqcontextmenu';
+		with: [ 
+			html listItem with: [ 
+						html anchor
+							callback: [ ASDMagritteCreatorComponent new ];
+							with: 'Add Magritte field'.
+						html listItem with: [ 
+								html anchor
+									callback: [ self addAccessor ];
+									with: 'Add Accessor'
+								]
+						]
+			].
+	html html: '<script type="text/javascript">'.
+	html html: '	window.addEventListener("resize", jsResize);
+							window.addEventListener("load", jsResize);'.
+	html html: 'function jsResize() {'.
+	html html: 'var ah 	= screen.availHeight;'.
+	html html: 'var aw 	= screen.availWidth;'.
+	html html: 'var mh 	= (ah - 400) + ''px'';'.
+	html html: 'var th 	= (ah - 350) + ''px'';'.
+	html html: 'var lw 	= (aw - 880) + ''px'';'.
+	html html: 'var wlw 	= (aw - 400) + ''px'';'.
+	html html:
+			'document.getElementById("classBrowser").style.width = wlw;'.
+	html html:
+			'document.getElementById("classBrowser").style.height = th;
+		}'.
+	html html: '</script>'.
+
 ]
 
 { #category : #rendering }
@@ -226,22 +274,56 @@ ASDPOClassBrowser >> renderMessageOn: html [
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderModeButtonsOn: html [
+
 	html form
 		class: 'mode';
-		with: [ html
-				div: [ html submitButton
+		with: [ 
+			html div
+				style: 'padding: 8px;';
+				with: [ 
+					html mdlButton
 						callback: [ self showInstance ];
-						value: 'instance'.
-					html submitButton
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'instance'.
+					html mdlButton
 						callback: [ self showHelp ];
-						value: 'help'.
-					html submitButton
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'help'.
+					html mdlButton
 						callback: [ self showClass ];
-						value: 'class' .
-					html submitButton
-						callback: [ self addAccessor  ];
-						value: 'Accessors' ].
-					 ]
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'class'.
+					html mdlButton
+						id: 'btnAccessors';
+						callback: [ self addAccessor ];
+						raised;
+						beSubmit;
+						rippleEffect;
+						with: 'Accessors'.
+					html mdlButton 
+						id: #bottomLeftButton;
+						with: [ 'Refacturing' ].
+					html mdlMenu
+						bottomLeft;
+						for: #bottomLeftButton;
+						with: [ 
+							html mdlMenuItem: 'Some Action'.
+							html mdlMenuItem
+								fullBleedDivider;
+								with: 'Another Action'.
+							html mdlMenuItem
+								disabled;
+								with: 'Disabled Action'.
+							html mdlMenuItem: 'Yet Another Action'
+							]
+					]
+			]
 ]
 
 { #category : #rendering }
@@ -249,6 +331,12 @@ ASDPOClassBrowser >> renderMonacoComponentOn: html [
 	html render: (MonacoComponent
 				code: self contents
 				language: MonacoLanguage smalltalk)
+]
+
+{ #category : #hooks }
+ASDPOClassBrowser >> script [
+
+	^ '$(document).ready(function(){$(''.class'').addcontextmenu(''contextmenuClass'')});'
 ]
 
 { #category : #notifying }
@@ -320,6 +408,20 @@ ASDPOClassBrowser >> text [
 { #category : #notifying }
 ASDPOClassBrowser >> update: aSymbol [
 	contents := model contents
+]
+
+{ #category : #updating }
+ASDPOClassBrowser >> updateRoot: anHtmlRoot [
+
+	"protocol: updating"
+
+	super updateRoot: anHtmlRoot.
+	anHtmlRoot link
+		beStylesheet;
+		url: 'https://fonts.googleapis.com/css?family=Roboto'.
+	anHtmlRoot javascript url:
+			'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js'.
+	anHtmlRoot title: 'Pharo Ide - ' , self class version
 ]
 
 { #category : #updating }

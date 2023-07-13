@@ -1,8 +1,183 @@
 Class {
 	#name : #ASDPORLibrary,
 	#superclass : #WAFileLibrary,
-	#category : #'AsdPharoIde-ClassBrowser-Utils'
+	#category : #'AsdPharoIde-Core-Utils'
 }
+
+{ #category : #uploaded }
+ASDPORLibrary >> arrowGif [
+	^ #[71 73 70 56 57 97 7 0 9 0 135 0 0 0 0 0 44 42 44 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33 249 4 1 0 0 2 0 44 0 0 0 0 7 0 9 0 0 8 26 0 5 8 28 56 48 0 65 129 1 12 18 76 168 16 33 195 130 9 23 54 68 120 176 98 64 0 59]
+]
+
+{ #category : #uploaded }
+ASDPORLibrary >> jqcontextmenuCss [
+
+	^ '
+.jqcontextmenu, .jqcontextmenu ul{ /*topmost and sub ULs, respectively*/
+font: normal 13px Verdana;
+margin: 0;
+padding: 0;
+position: absolute;
+left: 0;
+top: 0;
+z-index: 1000;
+list-style-type: none;
+background-color: rgb(22, 27, 34);
+    box-shadow: rgb(48 54 61) 0px 0px 0px 1px, rgb(1 4 9 / 85%) 0px 16px 32px;
+visibility: hidden;
+display: none; /*collapse all sub menus to begin with*/
+box-shadow: 3px 3px 8px rgb(48 54 61); /*shadow for CSS3 capable browsers.*/
+-webkit-box-shadow: 3px 3px 8px rgb(48 54 61);
+-moz-box-shadow: 3px 3px 8px rgb(48 54 61);
+}
+
+
+.jqcontextmenu li{
+position: relative;
+}
+
+.jqcontextmenu li a{
+display: block;
+width: 160px; /*width of menu (not including side paddings)*/
+color: black;
+background: #F5F5F5;
+text-decoration: none;
+padding: 4px 5px;
+}
+
+* html .jqcontextmenu li{ /*IE6 CSS hack*/
+display: inline-block;
+width: 170px; /*width of menu (include side paddings of LI A*/
+}
+
+.jqcontextmenu li a:hover{
+background: #e0e0e0;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 6px;
+right: 5px;
+}
+
+'
+]
+
+{ #category : #uploaded }
+ASDPORLibrary >> jqcontextmenuJs [
+	^ '/* jQuery Context Menu
+* Created: Dec 16th, 2009 by DynamicDrive.com. This notice must stay intact for usage 
+* Author: Dynamic Drive at http://www.dynamicdrive.com/
+* Visit http://www.dynamicdrive.com/ for full source code
+*/
+
+jQuery.noConflict()
+
+var jquerycontextmenu={
+	arrowpath: ''arrow.gif'', //full URL or path to arrow image
+	contextmenuoffsets: [1, -1], //additional x and y offset from mouse cursor for contextmenus
+
+	//***** NO NEED TO EDIT BEYOND HERE
+
+	builtcontextmenuids: [], //ids of context menus already built (to prevent repeated building of same context menu)
+
+	positionul:function($, $ul, e){
+		var istoplevel=$ul.hasClass(''jqcontextmenu'') //Bool indicating whether $ul is top level context menu DIV
+		var docrightedge=$(document).scrollLeft()+$(window).width()-40 //40 is to account for shadows in FF
+		var docbottomedge=$(document).scrollTop()+$(window).height()-40
+		if (istoplevel){ //if main context menu DIV
+			var x=e.pageX+this.contextmenuoffsets[0] //x pos of main context menu UL
+			var y=e.pageY+this.contextmenuoffsets[1]
+			x=(x+$ul.data(''dimensions'').w > docrightedge)? docrightedge-$ul.data(''dimensions'').w : x //if not enough horizontal room to the ridge of the cursor
+			y=(y+$ul.data(''dimensions'').h > docbottomedge)? docbottomedge-$ul.data(''dimensions'').h : y
+		}
+		else{ //if sub level context menu UL
+			var $parentli=$ul.data(''$parentliref'')
+			var parentlioffset=$parentli.offset()
+			var x=$ul.data(''dimensions'').parentliw //x pos of sub UL
+			var y=0
+
+			x=(parentlioffset.left+x+$ul.data(''dimensions'').w > docrightedge)? x-$ul.data(''dimensions'').parentliw-$ul.data(''dimensions'').w : x //if not enough horizontal room to the ridge parent LI
+			y=(parentlioffset.top+$ul.data(''dimensions'').h > docbottomedge)? y-$ul.data(''dimensions'').h+$ul.data(''dimensions'').parentlih : y
+		}
+		$ul.css({left:x, top:y})
+	},
+	
+	showbox:function($, $contextmenu, e){
+		$contextmenu.show()
+	},
+
+	hidebox:function($, $contextmenu){
+		$contextmenu.find(''ul'').andSelf().hide() //hide context menu plus all of its sub ULs
+	},
+
+
+	buildcontextmenu:function($, $menu){
+		$menu.css({display:''block'', visibility:''hidden''}).appendTo(document.body)
+		$menu.data(''dimensions'', {w:$menu.outerWidth(), h:$menu.outerHeight()}) //remember main menu''s dimensions
+		var $lis=$menu.find("ul").parent() //find all LIs within menu with a sub UL
+		$lis.each(function(i){
+			var $li=$(this).css({zIndex: 1000+i})
+			var $subul=$li.find(''ul:eq(0)'').css({display:''block''}) //set sub UL to "block" so we can get dimensions
+			$subul.data(''dimensions'', {w:$subul.outerWidth(), h:$subul.outerHeight(), parentliw:this.offsetWidth, parentlih:this.offsetHeight})
+			$subul.data(''$parentliref'', $li) //cache parent LI of each sub UL
+			$li.data(''$subulref'', $subul) //cache sub UL of each parent LI
+			$li.children("a:eq(0)").append( //add arrow images
+				''<img src="''+jquerycontextmenu.arrowpath+''" class="rightarrowclass" style="border:0;" />''
+			)
+			$li.bind(''mouseenter'', function(e){ //show sub UL when mouse moves over parent LI
+				var $targetul=$(this).data(''$subulref'')
+				if ($targetul.queue().length<=1){ //if 1 or less queued animations
+					jquerycontextmenu.positionul($, $targetul, e)
+					$targetul.show()
+				}
+			})
+			$li.bind(''mouseleave'', function(e){ //hide sub UL when mouse moves out of parent LI
+				$(this).data(''$subulref'').hide()
+			})
+		})
+		$menu.find(''ul'').andSelf().css({display:''none'', visibility:''visible''}) //collapse all ULs again
+		this.builtcontextmenuids.push($menu.get(0).id) //remember id of context menu that was just built
+	},
+
+
+	init:function($, $target, $contextmenu){
+		if (this.builtcontextmenuids.length==0){ //only bind click event to document once
+			$(document).bind("click", function(e){
+				if (e.button==0){ //hide all context menus (and their sub ULs) when left mouse button is clicked
+					jquerycontextmenu.hidebox($, $(''.jqcontextmenu''))
+				}
+			})
+		}
+		if (jQuery.inArray($contextmenu.get(0).id, this.builtcontextmenuids)==-1) //if this context menu hasn''t been built yet
+			this.buildcontextmenu($, $contextmenu)
+			$(document).bind("click", function(e){
+				if (e.button==0){ //hide all context menus (and their sub ULs) when left mouse button is clicked
+					jquerycontextmenu.hidebox($, $(''.jqcontextmenu''))
+				}
+			})
+		if ($target.parents().filter(''ul.jqcontextmenu'').length>0) //if $target matches an element within the context menu markup, don''t bind oncontextmenu to that element
+			return
+		$target.bind("contextmenu", function(e){
+			jquerycontextmenu.hidebox($, $(''.jqcontextmenu'')) //hide all context menus (and their sub ULs)
+			jquerycontextmenu.positionul($, $contextmenu, e)
+			jquerycontextmenu.showbox($, $contextmenu, e)
+			return false
+		})
+	}
+}
+
+jQuery.fn.addcontextmenu=function(contextmenuid){
+	var $=jQuery
+	return this.each(function(){ //return jQuery obj
+		var $target=$(this)
+			jquerycontextmenu.init($, $target, $(''#''+contextmenuid))
+	})
+};
+
+
+//Usage: $(elementselector).addcontextmenu(''id_of_context_menu_on_page'')'
+]
 
 { #category : #uploaded }
 ASDPORLibrary >> materialbluelightblueminCss [
