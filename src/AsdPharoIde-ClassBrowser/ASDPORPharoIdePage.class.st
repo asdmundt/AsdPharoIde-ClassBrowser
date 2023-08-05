@@ -60,14 +60,12 @@ ASDPORPharoIdePage >> renderContentOn: html [
 				size: 12;
 				with: [ 
 					html div
-						id:'classBrowser';
-						with:[ html render: self classBrowser ].
-
+							with: [ html render: self classBrowser ]
 					]
 			].
-		self renderWindowOn: html
-							withComponent: self classBrowser
-							andId: self session rootComponent idDialog , 'Playground'
+	self renderWindowOn: html
+			withComponent: self classBrowser
+			andId: self session rootComponent idDialog , 'Playground'
 ]
 
 { #category : #rendering }

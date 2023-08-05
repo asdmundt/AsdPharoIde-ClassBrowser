@@ -39,11 +39,12 @@ ASDPORPackageBasedBrowser >> classListIndex [
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> classListIndex: anInteger [
-	selectedClass := ((self classesInTheSelectedPackage
-		sorted: [ :a :b | a name <= b name ])
-		at: anInteger).
+
+	selectedClass := (self classesInTheSelectedPackage sorted: [ :a :b | 
+			                  a name <= b name ]) at: anInteger.
 	self clearMessageAndProtoclSelection.
-	self changed: #classListIndex
+	self changed: #classListIndex.
+	self session selectedClass: selectedClass
 ]
 
 { #category : #private }
@@ -156,28 +157,37 @@ ASDPORPackageBasedBrowser >> messageCategoryListIndex [
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> messageCategoryListIndex: anInteger [
+
 	selectedMessageCategory := self messageCategoryList at: anInteger.
 	selectedMethod := nil.
-	self changed: #messageCategoryListIndex
+	self changed: #messageCategoryListIndex.
+	self session selectedMessageCategory: selectedMessageCategory
 ]
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> messageList [
+
 	^ (selectedMessageCategory isNil
-		ifTrue: [
-			self selectedClass isNil
-				ifTrue: [ #() ]
-				ifFalse: [ self selectedClass selectors ] ]
-		ifFalse: [
-			| organization organizer |
-			organization := self selectedClass organization.
-			organizer := (organization respondsTo: #protocolOrganizer) "Only in Pharo 3.0+"
-				ifTrue: [ organization protocolOrganizer ]
-				ifFalse: [
-					| classOrganization |
-					classOrganization := Smalltalk globals class name hasClassNamed: 'ClassOrganization'.
-					(classOrganization importFrom: self selectedClass organization) protocolOrganizer ].
-			organizer methodsInProtocolNamed: selectedMessageCategory ]) sorted
+			   ifTrue: [ 
+				   self selectedClass isNil ifTrue: [ #(  ) ]
+						   ifFalse: [ self selectedClass selectors ]
+				   ]
+			   ifFalse: [ 
+				   | organization organizer |
+				   organization := self selectedClass organization.
+				   organizer := (organization respondsTo: #protocolOrganizer) 
+						                ifTrue: [ organization protocolOrganizer ]
+						                ifFalse: [ 
+							                | classOrganization |
+							                classOrganization := Smalltalk globals class
+								                                     name hasClassNamed:
+									                                     'ClassOrganization'.
+							                (classOrganization fromSpec:
+									                 self selectedClass organization)
+								                protocolOrganizer
+							                ]. "Only in Pharo 3.0+"
+				   organizer methodsInProtocolNamed: selectedMessageCategory
+				   ]) sorted
 ]
 
 { #category : #accessing }
@@ -189,8 +199,11 @@ ASDPORPackageBasedBrowser >> messageListIndex [
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> messageListIndex: anInteger [
-	selectedMethod := self selectedClass >> (self messageList at: anInteger).
-	self changed: #messageListIndex
+
+	selectedMethod := self selectedClass
+	                  >> (self messageList at: anInteger).
+	self changed: #messageListIndex.
+	self session selectedMethod: selectedMethod.
 ]
 
 { #category : #accessing }
@@ -285,8 +298,10 @@ ASDPORPackageBasedBrowser >> systemCategoryListIndex [
 
 { #category : #accessing }
 ASDPORPackageBasedBrowser >> systemCategoryListIndex: anInteger [
-	selectedPackage := ((self packages
-		sorted: [ :a :b | a packageName <= b packageName ]) at: anInteger).
+
+	selectedPackage := (self packages sorted: [ :a :b | 
+			                    a packageName <= b packageName ]) at: anInteger.
+	self session selectedPackage: selectedPackage.	
 	selectedClass := nil.
 	self clearMessageAndProtoclSelection.
 	self changed: #systemCategoryListIndex

@@ -80,9 +80,9 @@ ASDBPORHeaderPharoIde >> renderNavMenu: html [
 
 	html mdlNavigation: [ 
 			html mdlNavigationLink
-				onClick:
+				"onClick:
 					(html jQuery id: self rootComponent idDialog , 'Playground')
-						dialog open;
+						dialog open;"
 				with: 'Playground'
 			]
 ]

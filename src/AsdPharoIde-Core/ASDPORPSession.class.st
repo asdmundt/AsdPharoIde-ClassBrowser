@@ -8,7 +8,11 @@ Class {
 		'model',
 		'first',
 		'loginError',
-		'classBrowser'
+		'classBrowser',
+		'selectedPackage',
+		'selectedClass',
+		'selectedMessageCategory',
+		'selectedMethod'
 	],
 	#category : #'AsdPharoIde-Core-Utils'
 }
@@ -96,6 +100,66 @@ ASDPORPSession >> rootComponent [
 { #category : #accessing }
 ASDPORPSession >> rootComponent: aRootComponent [
 	rootComponent := aRootComponent
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedClass [
+
+	^ selectedClass
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedClass: anObject [
+
+	selectedPackage := nil.
+	selectedClass := anObject.
+	selectedMessageCategory := nil.
+	selectedMethod := nil
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedMessageCategory [
+
+	^ selectedMessageCategory
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedMessageCategory: anObject [
+
+	selectedPackage := nil.
+	selectedClass := nil.
+	selectedMessageCategory := anObject.
+	selectedMethod := nil
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedMethod [
+
+	^ selectedMethod
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedMethod: anObject [
+
+	selectedPackage := nil.
+	selectedClass := nil.
+	selectedMessageCategory := nil.
+	selectedMethod := anObject
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedPackage [
+
+	^ selectedPackage
+]
+
+{ #category : #accessing }
+ASDPORPSession >> selectedPackage: anObject [
+
+	selectedPackage := anObject.
+	selectedClass := nil.
+	selectedMessageCategory := nil.
+	selectedMethod := nil.
 ]
 
 { #category : #operations }

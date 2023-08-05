@@ -1,6 +1,8 @@
 Class {
 	#name : #ASDPOClassBrowser,
 	#superclass : #WAComponent,
+	#traits : 'TWithRootDialogComponent',
+	#classTraits : 'TWithRootDialogComponent classTrait',
 	#instVars : [
 		'contents',
 		'model',
@@ -90,16 +92,13 @@ ASDPOClassBrowser >> initialRequest: aRequest [
 
 	| theClass |
 	super initialRequest: aRequest.
-		self session rootComponent class development ifTrue: [ 
-							Transcript show:
-									'#################initialRequest####################'
-							].
+	
 	aRequest fields at: 'class' ifPresent: [ :className | 
 			Smalltalk at: className asSymbol ifPresent: [ :class | 
 					theClass := (aRequest fields includesKey: 'meta') ifTrue: [ 
 							            class class ]
 							            ifFalse: [ class ].
-				
+
 					self model setClass: theClass selector: nil.
 					aRequest fields at: 'method' ifPresent: [ :selector | 
 							self model setClass: theClass selector: selector asSymbol ]
@@ -148,6 +147,18 @@ ASDPOClassBrowser >> monacoComponent: anObject [
 { #category : #notifying }
 ASDPOClassBrowser >> notify: aString at: location in: sourceStream [
 	message := aString allButLast: 3
+]
+
+{ #category : #actions }
+ASDPOClassBrowser >> removePackage [
+
+	| selPackage |
+	selPackage := self session selectedPackage.
+	"self halt."
+	selPackage ifNotNil: [ 
+			(RPackage organizer packageNamed: selPackage name) removeFromSystem.
+				self model indicateInstanceMessages
+			]
 ]
 
 { #category : #rendering }
@@ -200,21 +211,7 @@ ASDPOClassBrowser >> renderContentOn: html [
 				renderMessageOn: html;
 				renderContentPaneOn: html
 			].
-	html unorderedList
-		id: 'contextmenuClass';
-		class: 'jqcontextmenu';
-		with: [ 
-			html listItem with: [ 
-						html anchor
-							callback: [ ASDMagritteCreatorComponent new ];
-							with: 'Add Magritte field'.
-						html listItem with: [ 
-								html anchor
-									callback: [ self addAccessor ];
-									with: 'Add Accessor'
-								]
-						]
-			].
+
 	html html: '<script type="text/javascript">'.
 	html html: '	window.addEventListener("resize", jsResize);
 							window.addEventListener("load", jsResize);'.
@@ -222,24 +219,59 @@ ASDPOClassBrowser >> renderContentOn: html [
 	html html: 'var ah 	= screen.availHeight;'.
 	html html: 'var aw 	= screen.availWidth;'.
 	html html: 'var mh 	= (ah - 400) + ''px'';'.
-	html html: 'var th 	= (ah - 350) + ''px'';'.
+	html html: 'var th 	= (ah - 750) + ''px'';'.
 	html html: 'var lw 	= (aw - 880) + ''px'';'.
 	html html: 'var wlw 	= (aw - 400) + ''px'';'.
 	html html:
 			'document.getElementById("classBrowser").style.width = wlw;'.
 	html html:
-			'document.getElementById("classBrowser").style.height = th;
+			'document.getElementById("hiddenAndMonaco").style.height = th;
 		}'.
 	html html: '</script>'.
+		html document addLoadScript: (JSStream on:
+					 '  var modalNewPack = document.getElementById("idNewPackage");
+  var modalRenamePack = document.getElementById("idRenamePackage");
 
+// Get the button that opens the modal
+var btnC = document.getElementById("btnClose");
+
+// Get the <span> element that closes the modal
+//var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+function openModalNewPack() {
+document.getElementById("idNewPackage").style.display = "block";
+	modalNewPack.style.display = "block";
+}
+
+modalNewPack.onclick = function() {
+  document.getElementById("idNewPackage").style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+btnC.onclick = function() {
+  modalNewPack.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modalNewPack) {
+    //modalNewPack.style.display = "none";
+document.getElementById("idNewPackage").style.display = "none";
+  }
+}')
 ]
 
 { #category : #rendering }
 ASDPOClassBrowser >> renderContentPaneOn: html [
+
 	html form
 		class: 'definition';
-		with: [ html
-				div: [ html hiddenInput
+		with: [ 
+			html div
+				id: 'hiddenAndMonaco';
+				with: [ 
+					html hiddenInput
 						id: #hiddenContents;
 						value: self contents;
 						callback: [ :aString | self contents: aString ].
@@ -248,22 +280,117 @@ ASDPOClassBrowser >> renderContentPaneOn: html [
 					html submitButton
 						value: 'accept';
 						callback: [ self accept ];
-						onClick:
-							(JSStream
-								on:
-									'var monacoComp = document.getElementsByTagName(''textarea'');
+						onClick: (JSStream on:
+										 'var monacoComp = document.getElementsByTagName(''textarea'');
 					 $(''#hiddenContents'').val(monacoComp[0].value) 
 ')
-					"	html submitButton on: #accept of: self" ] ].
-	html document
-		addLoadScript:
-			(JSStream
-				on:
-					'var monacoComp = document.getElementsByTagName(''textarea'');
+					"	html submitButton on: #accept of: self"
+					]
+			].
+	html document addLoadScript: (JSStream on:
+					 'var monacoComp = document.getElementsByTagName(''textarea'');
 					monacoComp[0].addEventListener(''change'', loadValue); 
 					monacoComp[0].addEventListener(''load'', loadValue); 
 					function loadValue(){ $(''#hiddenContents'').val(monacoComp[0].value) }
 ')
+]
+
+{ #category : #'rendering-class' }
+ASDPOClassBrowser >> renderCopyClassName: html [
+
+	| name |
+	html form: [ 
+			html mdlDialogTitle: 'Copy Class'.
+			html mdlDialogContent: [ 
+					html mdlTextFieldContainer
+						floatingLabel;
+						with: [ 
+							html mdlTextFieldLabel
+								for: html nextId;
+								with: 'Name'.
+							html mdlTextFieldInput
+								id: html lastId;
+								callback: [ :input | name := input ]
+							]
+					].
+			html mdlDialogActions: [ 
+					html mdlButton
+						beSubmit;
+						callback: [ 
+							(RBCopyPackageRefactoring copyPackage:
+										 self session selectedPackage name
+									 in: name) execute
+							];
+						with: 'Accept'.
+					html mdlButton
+						id: self rootDialogCloseId;
+						with: 'Cancel'
+					]
+			]
+]
+
+{ #category : #'rendering-package' }
+ASDPOClassBrowser >> renderCopyPackageName: html [
+
+	| name |
+	html form: [ 
+			html mdlDialogTitle: 'Rename Package'.
+			html mdlDialogContent: [ 
+					html mdlTextFieldContainer
+						floatingLabel;
+						with: [ 
+							html mdlTextFieldLabel
+								for: html nextId;
+								with: 'Name'.
+							html mdlTextFieldInput
+								id: html lastId;
+								callback: [ :input | name := input ]
+							]
+					].
+			html mdlDialogActions: [ 
+					html mdlButton
+						beSubmit;
+						callback: [ 
+							(RBCopyPackageRefactoring 
+		copyPackage: self session selectedPackage name 
+		in: name) execute. 
+							];
+						with: 'Accept'.
+					html mdlButton
+						id: self rootDialogCloseId;
+						with: 'Cancel'
+					]
+			]
+]
+
+{ #category : #'rendering-package' }
+ASDPOClassBrowser >> renderCreateNewPackageName: html [
+
+	| name |
+	html form: [ 
+			html mdlDialogTitle: 'Good job !'.
+			html mdlDialogContent: [ 
+					html mdlTextFieldContainer
+						floatingLabel;
+						with: [ 
+							html mdlTextFieldLabel
+								for: html nextId;
+								with: 'Name'.
+							html mdlTextFieldInput
+								id: html lastId;
+								callback: [ :input | name := input ]
+							]
+					].
+			html mdlDialogActions: [ 
+					html mdlButton
+						beSubmit;
+						callback: [ RPackageOrganizer default createPackageNamed: name ];
+						with: 'Accept'.
+					html mdlButton
+						id: self rootDialogCloseId;
+						with: 'Cancel'
+					]
+			]
 ]
 
 { #category : #rendering }
@@ -275,54 +402,97 @@ ASDPOClassBrowser >> renderMessageOn: html [
 { #category : #rendering }
 ASDPOClassBrowser >> renderModeButtonsOn: html [
 
+	| idRenameP idCopyP idNewP |
+	idNewP := 'idNewPackage'.
+	idCopyP := 'idCopyPackage'.
+	idRenameP := 'idRenamePackage'.
+
 	html form
-		class: 'mode';
+		class: 'modes';
 		with: [ 
 			html div
-				style: 'padding: 8px;';
+				style:
+					'padding: 8px; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; flex-direction: row; flex-wrap: nowrap;';
 				with: [ 
 					html mdlButton
+						style: 'margin-right: 10px;';
 						callback: [ self showInstance ];
 						raised;
 						beSubmit;
 						rippleEffect;
 						with: 'instance'.
 					html mdlButton
-						callback: [ self showHelp ];
+						style: 'margin-right: 10px;';
 						raised;
+						callback: [ self showHelp ];
 						beSubmit;
 						rippleEffect;
 						with: 'help'.
 					html mdlButton
 						callback: [ self showClass ];
+						style: 'margin-right: 10px;';
 						raised;
 						beSubmit;
 						rippleEffect;
 						with: 'class'.
 					html mdlButton
 						id: 'btnAccessors';
+						style: 'margin-right: 10px;';
 						callback: [ self addAccessor ];
 						raised;
 						beSubmit;
 						rippleEffect;
 						with: 'Accessors'.
-					html mdlButton 
-						id: #bottomLeftButton;
-						with: [ 'Refacturing' ].
-					html mdlMenu
-						bottomLeft;
-						for: #bottomLeftButton;
-						with: [ 
-							html mdlMenuItem: 'Some Action'.
-							html mdlMenuItem
-								fullBleedDivider;
-								with: 'Another Action'.
-							html mdlMenuItem
-								disabled;
-								with: 'Disabled Action'.
-							html mdlMenuItem: 'Yet Another Action'
+
+					self session selectedPackage ifNotNil: [ 
+							html mdlButton
+								id: #bottomLeftButtonRefacturing;
+								raised;
+								with: 'Package Menu'.
+							html mdlMenu
+								bottomLeft;
+								for: #bottomLeftButtonRefacturing;
+								with: [ 
+									html mdlMenuItem
+										openDialogWithId: self rootDialogOpenId;
+										onClickUpdateRootDialogWith: [ :r | 
+											self renderCreateNewPackageName: r ];
+										with: 'New'.
+									html mdlMenuItem
+										openDialogWithId: self rootDialogOpenId;
+										onClickUpdateRootDialogWith: [ :r | 
+											self renderRenamePackageName: r ];
+										with: 'Rename'.
+									html mdlMenuItem
+										onClick: self removePackage;
+										with: 'Remove'
+									]
+							].
+					self session selectedClass ifNotNil: [ 
+							html mdlButton
+								id: #bottomLeftButtonClassRefacturing;
+								raised;
+								with: 'Class Menu'.
+							html mdlMenu
+								bottomLeft;
+								for: #bottomLeftButtonClassRefacturing;
+								with: [ 
+									html mdlMenuItem with: 'New'.
+									html mdlMenuItem
+										onClick: 'openModalNewPack();';
+										with: 'Rename'.
+									html mdlMenuItem
+										onClick: 'openModalNewPack();';
+										with: 'Copy'
+									]
 							]
-					]
+					].
+			html document addLoadScript: (JSStream on:
+							 '$("#bottomLeftButtonRefacturing").click(function(event){
+    							event.preventDefault();});
+							$("#bottomLeftButtonClassRefacturing").click(function(event){
+    							event.preventDefault();});
+							')
 			]
 ]
 
@@ -333,10 +503,39 @@ ASDPOClassBrowser >> renderMonacoComponentOn: html [
 				language: MonacoLanguage smalltalk)
 ]
 
-{ #category : #hooks }
-ASDPOClassBrowser >> script [
+{ #category : #'rendering-package' }
+ASDPOClassBrowser >> renderRenamePackageName: html [
 
-	^ '$(document).ready(function(){$(''.class'').addcontextmenu(''contextmenuClass'')});'
+	| name |
+	html form: [ 
+		
+					html mdlDialogTitle: 'Rename Package'.
+					html mdlDialogContent: [ 
+								html mdlTextFieldContainer
+									floatingLabel;
+									with: [ 
+										html mdlTextFieldLabel
+											for: html nextId;
+											with: 'Name'.
+										html mdlTextFieldInput
+											id: html lastId;
+											callback: [ :input | name := input ]
+										]
+								].
+					html mdlDialogActions: [ 
+							html mdlButton
+								beSubmit;
+								callback: [ 
+									RBRenamePackageRefactoring rename:
+												(self session selectedPackage name to: name) execute
+									];
+								with: 'Accept'.
+							html mdlButton
+								id: 'idButtonCloseRename';
+								with: 'Cancel'
+							]
+					]
+		
 ]
 
 { #category : #notifying }
@@ -374,6 +573,7 @@ ASDPOClassBrowser >> states [
 
 { #category : #hooks }
 ASDPOClassBrowser >> style [
+
 	^ 'form, div.columns {
 	padding: 2px;
 	margin: 0;
@@ -384,9 +584,18 @@ form.column {
 	width: 25%;
 	float: left;
 }
+
 form.column select {
 	width: 100%;
-	border: 1px solid #aaa;
+	background-color: rgb(13, 17, 23) !important;
+    color: rgb(201, 209, 217) !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(52, 52, 52) !important;
+    border-image: initial !important;: 1px solid #aaa;
+}
+
+
 }
 
 form.mode {
@@ -397,7 +606,62 @@ form.definition textarea {
 	width: 100%;
 	height: 200px;
 	border: 1px solid #aaa;
-}'
+}
+.monaco-demo{
+	display: flex;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	background-color: rgb(13, 17, 23) !important;
+    color: rgb(201, 209, 217) !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(52, 52, 52) !important;
+    border-image: initial !important;: 1px solid #aaa;
+	height: 100%;
+	width: 100%;
+}
+
+.modal {
+ 
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+background-color: rgb(13, 17, 23) !important;
+ border-color: rgb(52, 52, 52) !important;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: SelectMenu-modal-animation--sm;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(13, 17, 23) !important;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+'
 ]
 
 { #category : #accessing }
