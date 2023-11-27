@@ -464,7 +464,7 @@ ASDPOClassBrowser >> renderModeButtonsOn: html [
 											self renderRenamePackageName: r ];
 										with: 'Rename'.
 									html mdlMenuItem
-										onClick: self removePackage;
+										"onClick: self removePackage;"
 										with: 'Remove'
 									]
 							].
