@@ -1,28 +1,28 @@
 Class {
-	#name : #ASDPORProjectManagerPage,
+	#name : #ASDPORCrudGeneratorPage,
 	#superclass : #ASDPORPageModules,
-	#category : #'AsdPharoIde-ClassBrowser-Web'
+	#category : #'AsdPharoIde-Core-Web'
 }
 
 { #category : #accessing }
-ASDPORProjectManagerPage class >> pageName [
-	^ 'Projektverwaltung'
+ASDPORCrudGeneratorPage class >> pageName [
+	^ 'CRUD Genarator'
 ]
 
 { #category : #accessing }
-ASDPORProjectManagerPage class >> priority [
-	^ 2
+ASDPORCrudGeneratorPage class >> priority [
+	^ 3
 ]
 
 { #category : #initialize }
-ASDPORProjectManagerPage >> initialize [
+ASDPORCrudGeneratorPage >> initialize [
 	super initialize.
 
 	
 ]
 
 { #category : #rendering }
-ASDPORProjectManagerPage >> renderContentOn: html [
+ASDPORCrudGeneratorPage >> renderContentOn: html [
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';

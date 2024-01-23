@@ -6,7 +6,7 @@ Class {
 		'model',
 		'message'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Component'
+	#category : #'AsdPharoIde-Core-Component'
 }
 
 { #category : #accessing }

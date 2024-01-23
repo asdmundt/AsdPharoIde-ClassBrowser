@@ -1,11 +1,11 @@
 Class {
-	#name : #ASDBPORHeaderPharoIde,
+	#name : #ASDBPORHeaderClassBrowser,
 	#superclass : #ASDBPORHeader,
 	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderAccountButtonOn: html [
+ASDBPORHeaderClassBrowser >> renderAccountButtonOn: html [
 	html
 		mdlNavigation: [ html mdlButton icon
 				id: #bottomLeftButton;
@@ -24,7 +24,7 @@ ASDBPORHeaderPharoIde >> renderAccountButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderAddButtonOn: html [
+ASDBPORHeaderClassBrowser >> renderAddButtonOn: html [
 	html
 		mdlNavigation: [ html mdlButton icon
 				id: #bottomLeftButton;
@@ -43,28 +43,29 @@ ASDBPORHeaderPharoIde >> renderAddButtonOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderButtonsOn: html [
+ASDBPORHeaderClassBrowser >> renderButtonsOn: html [
 	self session isLogged
 		ifFalse: [ ^ self ].
 	self renderAccountButtonOn: html
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderContentOn: html [
-	html mdlLayoutHeader
-		with: [ "self renderDrawerOn: html"
-			html
-				mdlLayoutHeaderRow: [ html mdlNavigationLink
-						callback: [ "Just refresh" ];
+ASDBPORHeaderClassBrowser >> renderContentOn: html [
+
+	html mdlLayoutHeader with: [ "self renderDrawerOn: html"
+			html mdlLayoutHeaderRow: [ 
+					html mdlNavigationLink
+						callback: [ self rootComponent goToOverviewView ];
 						with: [ html mdlLayoutTitle: [ html text: 'Pharo Online IDE' ] ].
 					self renderNavMenu: html.
 					html mdlLayoutSpacer.
-					self renderButtonsOn: html ].
-			 ]
+					self renderButtonsOn: html
+					]
+			]
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderDrawerOn: html [
+ASDBPORHeaderClassBrowser >> renderDrawerOn: html [
 	html
 		mdlLayoutDrawer: [ html
 				mdlNavigation: [ self possiblePages
@@ -76,19 +77,20 @@ ASDBPORHeaderPharoIde >> renderDrawerOn: html [
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderNavMenu: html [
+ASDBPORHeaderClassBrowser >> renderNavMenu: html [
 
 	html mdlNavigation: [ 
-			html mdlNavigationLink
-				"onClick:
-					(html jQuery id: self rootComponent idDialog , 'Playground')
-						dialog open;"
-				with: 'Playground'
+			html mdlButton icon
+				id: #bottomLeftButton;
+				with: [ html mdlIcon: #account_circle ];
+				onClick:
+					(html jQuery id: self rootComponent idPlayGrount)
+						dialog open
 			]
 ]
 
 { #category : #rendering }
-ASDBPORHeaderPharoIde >> renderTabBarOn: html [
+ASDBPORHeaderClassBrowser >> renderTabBarOn: html [
 
 	html mdlLayoutTabBar: [ 
 		self possiblePages do: [ :aClass | 

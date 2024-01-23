@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDMagritteCreatorComponent,
 	#superclass : #WATask,
-	#category : #'AsdPharoIde-ClassBrowser-Component'
+	#category : #'AsdPharoIde-Core-Component'
 }
 
 { #category : #tasks }

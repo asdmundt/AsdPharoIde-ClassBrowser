@@ -368,7 +368,7 @@ ASDPOClassBrowser >> renderCreateNewPackageName: html [
 
 	| name |
 	html form: [ 
-			html mdlDialogTitle: 'Good job !'.
+			html mdlDialogTitle: 'Package erstellen'.
 			html mdlDialogContent: [ 
 					html mdlTextFieldContainer
 						floatingLabel;

@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDPORHomePage,
 	#superclass : #ASDPORPageLogin,
-	#category : #'AsdPharoIde-ClassBrowser-Web'
+	#category : #'AsdPharoIde-Core-Web'
 }
 
 { #category : #accessing }
@@ -16,9 +16,9 @@ ASDPORHomePage class >> priority [
 
 { #category : #initialize }
 ASDPORHomePage >> initialize [
-	super initialize.
 
-	
+	super initialize.
+	self session rootComponent header: ASDBPORHeaderClassBrowser new.
 ]
 
 { #category : #rendering }

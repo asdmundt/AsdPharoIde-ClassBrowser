@@ -6,7 +6,7 @@ Class {
 		'loginComponent',
 		'showLoginError'
 	],
-	#category : #'AsdPharoIde-ClassBrowser-Web'
+	#category : #'AsdPharoIde-Core-Web'
 }
 
 { #category : #accessing }

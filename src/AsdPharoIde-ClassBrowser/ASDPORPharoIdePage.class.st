@@ -32,7 +32,7 @@ ASDPORPharoIdePage >> classBrowser [
 { #category : #initialize }
 ASDPORPharoIdePage >> initialize [
 	super initialize.
-	self session rootComponent header: ASDBPORHeaderPharoIde new.
+	self session rootComponent header: ASDBPORHeaderClassBrowser new.
 	classBrowser := ASDPOClassBrowser new.
 ]
 
@@ -58,14 +58,11 @@ ASDPORPharoIdePage >> renderContentOn: html [
 			html mdlCell
 				stretch;
 				size: 12;
-				with: [ 
-					html div
-							with: [ html render: self classBrowser ]
-					]
+				with: [ html div with: [ html render: self classBrowser ] ]
 			].
 	self renderWindowOn: html
 			withComponent: self classBrowser
-			andId: self session rootComponent idDialog , 'Playground'
+			andId: self session rootComponent idPlayGrount
 ]
 
 { #category : #rendering }

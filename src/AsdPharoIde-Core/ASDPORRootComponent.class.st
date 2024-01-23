@@ -32,14 +32,14 @@ ASDPORRootComponent class >> initialize [
 	self environment at: #WADevelopmentConfiguration
 			ifPresent: [ :class | 
 			WAAdmin applicationDefaults addParent: class instance ]. "Remove development tools."
-	^ (WAAdmin register: self asApplicationAt: 'asdclassbrowser')
+	^ (WAAdmin register: self asApplicationAt: 'asdpharoide')
 		  preferenceAt: #sessionClass put: ASDPORPSession;
 		  addLibrary: JQDeploymentLibrary;
 		  addLibrary: JQUiDeploymentLibrary;
 		  addLibrary: MDLLibrary;
 		  addLibrary: ASDPORLibrary;
-		addLibrary: MonacoFileLibrary;
-		 yourself
+		  addLibrary: MonacoFileLibrary;
+		  yourself
 ]
 
 { #category : #testing }
@@ -50,8 +50,7 @@ ASDPORRootComponent class >> isRpi [
 { #category : #versions }
 ASDPORRootComponent class >> version [
 
-	^ '0.1.0'
-	
+	^ '2.2.0'
 ]
 
 { #category : #hooks }
