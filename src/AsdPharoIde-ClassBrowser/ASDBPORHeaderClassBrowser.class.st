@@ -57,7 +57,7 @@ ASDBPORHeaderClassBrowser >> renderContentOn: html [
 					html mdlNavigationLink
 						callback: [ self rootComponent goToOverviewView ];
 						with: [ html mdlLayoutTitle: [ html text: 'Pharo Online IDE' ] ].
-					self renderNavMenu: html.
+					"self renderNavMenu: html."
 					html mdlLayoutSpacer.
 					self renderButtonsOn: html
 					]
