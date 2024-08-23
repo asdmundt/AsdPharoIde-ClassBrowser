@@ -31,9 +31,10 @@ ASDPORPharoIdePage >> classBrowser [
 
 { #category : #initialize }
 ASDPORPharoIdePage >> initialize [
+
 	super initialize.
-	self session rootComponent header: ASDBPORHeaderClassBrowser new.
-	classBrowser := ASDPOClassBrowser new.
+	"self session rootComponent header: ASDBPORHeaderClassBrowser new."
+	classBrowser := ASDPOClassBrowser new
 ]
 
 { #category : #accessing }

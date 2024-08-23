@@ -1,28 +1,28 @@
 Class {
-	#name : #ASDPORMagritteGeneratorPage,
+	#name : #ASDPORClassGeneratorPage,
 	#superclass : #ASDPORPageModules,
 	#category : #'AsdPharoIde-Core-Web'
 }
 
 { #category : #accessing }
-ASDPORMagritteGeneratorPage class >> pageName [
+ASDPORClassGeneratorPage class >> pageName [
 	^ 'Magritte Genarator'
 ]
 
 { #category : #accessing }
-ASDPORMagritteGeneratorPage class >> priority [
+ASDPORClassGeneratorPage class >> priority [
 	^ 3
 ]
 
 { #category : #initialize }
-ASDPORMagritteGeneratorPage >> initialize [
+ASDPORClassGeneratorPage >> initialize [
 	super initialize.
 
 	
 ]
 
 { #category : #rendering }
-ASDPORMagritteGeneratorPage >> renderContentOn: html [
+ASDPORClassGeneratorPage >> renderContentOn: html [
 	html mdlGrid
 		shadow: 0;
 		style: 'align-items: center; height: 100%';

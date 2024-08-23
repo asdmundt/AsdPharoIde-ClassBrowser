@@ -18,7 +18,8 @@ ASDPORHomePage class >> priority [
 ASDPORHomePage >> initialize [
 
 	super initialize.
-	"self session rootComponent header: ASDBPORHeaderClassBrowser new"
+	 self session rootComponent header:
+			ASDBPORHeaderClassBrowser new
 ]
 
 { #category : #rendering }
