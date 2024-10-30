@@ -1,6 +1,6 @@
 Class {
 	#name : #ASDPORModelRefacturing,
-	#superclass : #ASDPORProjekt,
+	#superclass : #AnObsoleteASDPORModel,
 	#instVars : [
 		'selClass',
 		'model'

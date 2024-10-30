@@ -1,6 +1,6 @@
 Class {
 	#name : #ASDBPORHeaderClassBrowser,
-	#superclass : #ASDBPORHeader,
+	#superclass : #AnObsoleteASDBPORHeader,
 	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 

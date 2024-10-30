@@ -1,6 +1,6 @@
 Class {
 	#name : #ASDPORPharoIdePage,
-	#superclass : #ASDPORPageModules,
+	#superclass : #AnObsoleteASDPORPageModules,
 	#instVars : [
 		'classBrowser',
 		'playGround'
