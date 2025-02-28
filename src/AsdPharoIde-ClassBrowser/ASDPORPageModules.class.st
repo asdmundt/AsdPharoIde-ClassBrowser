@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDPORPageModules,
 	#superclass : #ASDPORComponent,
-	#category : #'AsdPharoIde-Core-Core'
+	#category : #'AsdPharoIde-ClassBrowser-Core'
 }
 
 { #category : #testing }

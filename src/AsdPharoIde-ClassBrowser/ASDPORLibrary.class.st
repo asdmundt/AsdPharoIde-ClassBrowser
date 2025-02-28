@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDPORLibrary,
 	#superclass : #WAFileLibrary,
-	#category : #'AsdPharoIde-Core-Utils'
+	#category : #'AsdPharoIde-ClassBrowser-Utils'
 }
 
 { #category : #uploaded }

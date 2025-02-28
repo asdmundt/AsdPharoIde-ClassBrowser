@@ -1,39 +1,39 @@
 Class {
-	#name : #ASDPORPageModules,
+	#name : #ASDPORPageLogin,
 	#superclass : #ASDPORComponent,
-	#category : #'AsdPharoIde-Core-Core'
+	#category : #'AsdPharoIde-ClassBrowser-Core'
 }
 
 { #category : #testing }
-ASDPORPageModules class >> isAbstract [
-	^ self = ASDPORPageModules
+ASDPORPageLogin class >> isAbstract [
+	^ self = ASDPORPageLogin
 ]
 
 { #category : #accessing }
-ASDPORPageModules class >> pageName [
+ASDPORPageLogin class >> pageName [
 	"Title of the page that will be used in menus and URLs."
 
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-ASDPORPageModules class >> pagesToDisplay [
+ASDPORPageLogin class >> pagesToDisplay [
 	^ (self allSubclasses reject: #isAbstract) sorted: #priority ascending
 ]
 
 { #category : #accessing }
-ASDPORPageModules class >> pathName [
+ASDPORPageLogin class >> pathName [
 	"Use to define the URL name"
 
 	^ self pageName copyWithout: $  
 ]
 
 { #category : #accessing }
-ASDPORPageModules class >> priority [
+ASDPORPageLogin class >> priority [
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-ASDPORPageModules >> pathName [
+ASDPORPageLogin >> pathName [
 	^ self class pathName
 ]

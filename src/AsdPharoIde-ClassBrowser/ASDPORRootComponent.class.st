@@ -13,7 +13,7 @@ Class {
 		'idDialog',
 		'idPlayGrount'
 	],
-	#category : #'AsdPharoIde-Core-Core'
+	#category : #'AsdPharoIde-ClassBrowser-Core'
 }
 
 { #category : #testing }

@@ -1,22 +1,22 @@
 Class {
-	#name : #ASDMagritteCreatorComponent,
+	#name : #ASDClassCreatorComponent,
 	#superclass : #WATask,
 	#category : #'AsdPharoIde-ClassBrowser-Component'
 }
 
 { #category : #tasks }
-ASDMagritteCreatorComponent >> checkAuthorInitials [
+ASDClassCreatorComponent >> checkAuthorInitials [
 	GRPlatform current seasideIsAuthorNameSet
 		ifFalse: [ self call: WAWelcomeAuthorNamePrompter new ]
 ]
 
 { #category : #tasks }
-ASDMagritteCreatorComponent >> chooseComponentName [
+ASDClassCreatorComponent >> chooseComponentName [
 	^ self call: WAWelcomeComponentNamePrompter new
 ]
 
 { #category : #tasks }
-ASDMagritteCreatorComponent >> createComponent: componentName [
+ASDClassCreatorComponent >> createComponent: componentName [
 	| userComponent |
 	
 	Smalltalk globals at: componentName ifPresent: [ :class |
@@ -48,12 +48,12 @@ ASDMagritteCreatorComponent >> createComponent: componentName [
 ]
 
 { #category : #tasks }
-ASDMagritteCreatorComponent >> displayComponent: component named: componentName [
+ASDClassCreatorComponent >> displayComponent: component named: componentName [
 	self call: (WAWelcomeComponentConfirmation component: component named: componentName)
 ]
 
 { #category : #running }
-ASDMagritteCreatorComponent >> go [
+ASDClassCreatorComponent >> go [
 	| componentName component |
 	
 	[
@@ -70,7 +70,7 @@ ASDMagritteCreatorComponent >> go [
 ]
 
 { #category : #private }
-ASDMagritteCreatorComponent >> sampleComponentRenderMethod [
+ASDClassCreatorComponent >> sampleComponentRenderMethod [
 	^ 'renderContentOn: html
 	html image url: ''http://www.seaside.st/styles/logo-plain.png''.
 	html paragraph: ''Hello World from Seaside.''.

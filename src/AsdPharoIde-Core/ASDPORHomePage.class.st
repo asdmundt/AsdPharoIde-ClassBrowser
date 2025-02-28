@@ -1,7 +1,7 @@
 Class {
 	#name : #ASDPORHomePage,
 	#superclass : #ASDPORPageLogin,
-	#category : #'AsdPharoIde-ClassBrowser-Web'
+	#category : #'AsdPharoIde-Core-Web'
 }
 
 { #category : #accessing }

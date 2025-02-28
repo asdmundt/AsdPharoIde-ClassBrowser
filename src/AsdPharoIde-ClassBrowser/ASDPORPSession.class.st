@@ -14,7 +14,7 @@ Class {
 		'selectedMessageCategory',
 		'selectedMethod'
 	],
-	#category : #'AsdPharoIde-Core-Utils'
+	#category : #'AsdPharoIde-ClassBrowser-Utils'
 }
 
 { #category : #accessing }
